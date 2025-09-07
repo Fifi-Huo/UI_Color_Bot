@@ -23,6 +23,15 @@ interface PickedColor {
   rgb: number[];
   color_name: string;
   position: { x: number; y: number };
+  accessibility?: {
+    wcag_aa_normal: boolean;
+    wcag_aa_large: boolean;
+    wcag_aaa_normal: boolean;
+    wcag_aaa_large: boolean;
+    contrast_ratio: number;
+    color_blind_safe: boolean;
+    recommendations: string[];
+  };
 }
 
 interface ImageUploadProps {
@@ -40,6 +49,40 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onAnalysisComplete, on
   const [pickedColors, setPickedColors] = useState<PickedColor[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+
+  // 可访问性分析函数
+  const analyzeColorAccessibility = async (hexColor: string) => {
+    try {
+      const response = await fetch('/api/accessibility-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          colors: [hexColor, '#FFFFFF'] // 与白色背景对比
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success && data.results && data.results.length > 0) {
+        const result = data.results[0];
+        return {
+          wcag_aa_normal: result.wcag_aa_normal || false,
+          wcag_aa_large: result.wcag_aa_large || false,
+          wcag_aaa_normal: result.wcag_aaa_normal || false,
+          wcag_aaa_large: result.wcag_aaa_large || false,
+          contrast_ratio: result.contrast_ratio || 0,
+          color_blind_safe: result.color_blind_safe || false,
+          recommendations: result.recommendations || []
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error('Accessibility analysis error:', error);
+      return null;
+    }
+  };
 
   const compressImage = (file: File): Promise<string> => {
     return new Promise((resolve) => {
@@ -189,11 +232,15 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onAnalysisComplete, on
       const data = await response.json();
       
       if (data.success) {
+        // 为取色结果添加可访问性分析
+        const colorWithAccessibility = await analyzeColorAccessibility(data.color.hex);
+        
         const newColor: PickedColor = {
           hex: data.color.hex,
           rgb: data.color.rgb,
           color_name: data.color.color_name,
-          position: { x, y }
+          position: { x, y },
+          accessibility: colorWithAccessibility || undefined
         };
         
         setPickedColors(prev => [...prev, newColor]);
@@ -325,23 +372,77 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onAnalysisComplete, on
                 <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
                   取色结果 ({pickedColors.length})
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="space-y-3">
                   {pickedColors.map((color, index) => (
                     <div
                       key={index}
-                      className="flex items-center space-x-2 p-2 bg-white dark:bg-gray-800 rounded"
+                      className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600"
                     >
-                      <div
-                        className="w-6 h-6 rounded border border-gray-200 dark:border-gray-600"
-                        style={{ backgroundColor: color.hex }}
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-mono text-gray-900 dark:text-gray-100">
-                          {color.hex}
-                        </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {color.color_name}
-                        </p>
+                      <div className="flex items-start space-x-3">
+                        <div
+                          className="w-12 h-12 rounded-lg border border-gray-200 dark:border-gray-600 flex-shrink-0"
+                          style={{ backgroundColor: color.hex }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <p className="text-sm font-mono font-medium text-gray-900 dark:text-gray-100">
+                              {color.hex}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              RGB({color.rgb.join(', ')})
+                            </p>
+                          </div>
+                          <p className="text-xs text-gray-600 dark:text-gray-300 mb-2">
+                            {color.color_name}
+                          </p>
+                          
+                          {/* 可访问性信息 */}
+                          {color.accessibility && (
+                            <div className="mt-2 p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                              <h5 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                可访问性分析 (与白色背景对比)
+                              </h5>
+                              <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="space-y-1">
+                                  <div className="flex items-center space-x-1">
+                                    <span className={`w-2 h-2 rounded-full ${color.accessibility.wcag_aa_normal ? 'bg-green-500' : 'bg-red-500'}`} />
+                                    <span className="text-gray-600 dark:text-gray-400">WCAG AA 普通文本</span>
+                                  </div>
+                                  <div className="flex items-center space-x-1">
+                                    <span className={`w-2 h-2 rounded-full ${color.accessibility.wcag_aa_large ? 'bg-green-500' : 'bg-red-500'}`} />
+                                    <span className="text-gray-600 dark:text-gray-400">WCAG AA 大文本</span>
+                                  </div>
+                                </div>
+                                <div className="space-y-1">
+                                  <div className="flex items-center space-x-1">
+                                    <span className={`w-2 h-2 rounded-full ${color.accessibility.wcag_aaa_normal ? 'bg-green-500' : 'bg-red-500'}`} />
+                                    <span className="text-gray-600 dark:text-gray-400">WCAG AAA 普通文本</span>
+                                  </div>
+                                  <div className="flex items-center space-x-1">
+                                    <span className={`w-2 h-2 rounded-full ${color.accessibility.color_blind_safe ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                                    <span className="text-gray-600 dark:text-gray-400">色盲友好</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                                对比度: {color.accessibility.contrast_ratio.toFixed(2)}:1
+                              </div>
+                              {color.accessibility.recommendations.length > 0 && (
+                                <div className="mt-2">
+                                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">建议:</p>
+                                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                                    {color.accessibility.recommendations.slice(0, 2).map((rec, i) => (
+                                      <li key={i} className="flex items-start">
+                                        <span className="mr-1">•</span>
+                                        <span>{rec}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}

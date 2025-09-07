@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![UI Color Bot](https://img.shields.io/badge/UI%20Color%20Bot-v1.1-blue.svg)
+![UI Color Bot](https://img.shields.io/badge/UI%20Color%20Bot-v1.2-blue.svg)
 ![NVIDIA NIM](https://img.shields.io/badge/NVIDIA-NIM-green.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104-red.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)
@@ -10,7 +10,7 @@
 
 **专业的AI驱动UI颜色设计助手**
 
-HSV色彩空间优化 | NVIDIA NIM微服务 | GPU加速颜色分析 | 智能配色生成 | 可访问性检查
+HSV色彩空间优化 | NVIDIA NIM微服务 | GPU加速颜色分析 | 点击取色功能 | 智能配色生成 | 可访问性检查
 
 [快速开始](#-快速开始) • [功能特性](#-功能特性) • [API文档](#-api-文档) • [部署指南](#-部署指南)
 
@@ -24,6 +24,7 @@ UI Color Bot 是一个基于NVIDIA NIM微服务和百炼API的专业UI颜色设�
 
 - 🤖 **智能聊天助手**: 基于大语言模型的专业颜色设计对话
 - 🎨 **GPU加速颜色分析**: 使用NVIDIA cuML K-Means算法进行高效颜色提取
+- 🖱️ **点击取色功能**: 精确获取图片任意位置的颜色，自动可访问性分析
 - 🌈 **AI配色生成**: 7种和谐配色方案智能生成
 - ♿ **可访问性检查**: WCAG标准合规性检测和色盲友好性分析
 - 📊 **颜色标注图**: 专业的颜色区域标注和可视化
@@ -83,6 +84,15 @@ AI: 为您推荐以下现代科技风格配色方案...
 - **智能颜色提取**: 自动识别图片中的主要颜色，支持base64和URL图片
 - **精确分析**: 提供HEX、RGB、HSL格式和颜色占比
 - **处理优化**: 毫秒级响应时间，支持图片压缩和大文件处理
+
+### 🖱️ 点击取色功能
+
+- **精确取色**: 点击图片任意位置获取像素级精确颜色
+- **实时可访问性分析**: 自动检测WCAG AA/AAA标准合规性
+- **对比度计算**: 与白色背景的精确对比度比值
+- **色盲友好性**: 8种色盲类型的友好性评估
+- **详细信息展示**: HEX、RGB值、颜色名称和改进建议
+- **批量取色**: 支持多点取色，统一管理和分析
 
 ### 🌈 AI配色生成
 
@@ -179,6 +189,7 @@ AI: 为您推荐以下现代科技风格配色方案...
 | `/chat` | POST | 智能对话 | `{message, attachments?}` |
 | `/chat/stream` | POST | 流式对话 | `{message}` |
 | `/analyze-image-base64` | POST | HSV颜色分析 | `{image_data, num_colors?}` |
+| `/pick-color` | POST | 点击取色 | `{image_url, x, y}` |
 | `/color/analyze` | POST | 颜色分析 | `{image_url}` |
 | `/color/palette` | POST | 配色生成 | `{base_color, harmony_type}` |
 | `/color/accessibility` | POST | 可访问性检查 | `{colors}` |
@@ -201,6 +212,17 @@ curl -X POST "http://localhost:8001/analyze-image-base64" \
 curl -X POST "http://localhost:8001/color/analyze" \
   -H "Content-Type: application/json" \
   -d '{"image_url": "https://example.com/image.jpg"}'
+```
+
+#### 点击取色
+```bash
+curl -X POST "http://localhost:8001/pick-color" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "data:image/jpeg;base64,/9j4AAQSkZJRgABA...",
+    "x": 150,
+    "y": 200
+  }'
 ```
 
 #### 配色生成
@@ -360,9 +382,23 @@ npm run dev
 2. **色彩一致性**: 确保多平台色彩统一
 3. **可访问性合规**: 满足无障碍设计要求
 
-## 🆕 最新更新 (v1.1)
+## 🆕 最新更新 (v1.2)
 
-### HSV色彩空间优化
+### 🖱️ 点击取色功能
+- ✅ **精确像素取色**: 点击图片任意位置获取精确颜色值
+- ✅ **自动可访问性分析**: 取色时自动进行WCAG标准检测
+- ✅ **实时对比度计算**: 与白色背景的精确对比度比值
+- ✅ **色盲友好性检测**: 8种色盲类型的可用性评估
+- ✅ **详细信息展示**: HEX、RGB、颜色名称和改进建议
+- ✅ **批量取色管理**: 支持多点取色，统一查看和分析
+
+### 🔧 API端点优化
+- ✅ **新增/pick-color端点**: 支持坐标点击取色功能
+- ✅ **修复API路由错误**: 正确调用/analyze-image-base64端点
+- ✅ **解决URL长度限制**: 支持大型base64图片数据处理
+- ✅ **TypeScript类型安全**: 完善的接口类型定义和错误处理
+
+### HSV色彩空间优化 (v1.1)
 - ✅ **颜色识别精度提升**: 采用HSV色彩空间进行K-Means聚类，更符合人眼视觉感知
 - ✅ **算法优化**: 同时支持GPU (cuML) 和CPU (sklearn) 的HSV色彩空间处理
 - ✅ **Base64图片支持**: 直接处理前端上传的base64编码图片，无需外部URL
