@@ -1,5 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb', // 增加请求体大小限制到10MB
+    },
+  },
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

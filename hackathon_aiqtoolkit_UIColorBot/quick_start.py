@@ -23,7 +23,9 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from sklearn.cluster import KMeans
 from dotenv import load_dotenv
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, File, UploadFile
+from fastapi import FastAPI, Request, HTTPException, File, UploadFile, WebSocket
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -269,7 +271,7 @@ def create_simple_app():
     
     @app.post("/analyze-image-base64")
     async def analyze_image_base64(request: dict):
-        """分析base64编码的图片"""
+        """分析base64编码的图片，使用HSV色彩空间优化"""
         try:
             image_data = request.get("image_data", "")
             num_colors = request.get("num_colors", 5)
@@ -282,32 +284,123 @@ def create_simple_app():
                 # 移除data URL前缀
                 image_data = image_data.split(',')[1]
             
-            # 解码base64
+            # 解码base64并直接处理图片
             image_bytes = base64.b64decode(image_data)
             
-            # 创建临时文件
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
-                tmp_file.write(image_bytes)
-                tmp_file_path = tmp_file.name
+            # 使用PIL和OpenCV直接处理图片，确保正确的色彩空间转换
+            import io
+            from PIL import Image
+            import cv2
+            import numpy as np
+            from sklearn.cluster import KMeans
+            import time
             
-            try:
-                # 在实际应用中，这里需要将临时文件上传到可访问的URL
-                # 为了演示，我们使用示例图片URL
-                nim_client = NIMClient()
-                result = await nim_client.extract_colors_from_image(
-                    image_url="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-                    num_colors=num_colors
-                )
+            start_time = time.time()
+            
+            # 从字节数据创建PIL图像
+            pil_image = Image.open(io.BytesIO(image_bytes))
+            
+            # 转换为RGB格式
+            if pil_image.mode != 'RGB':
+                pil_image = pil_image.convert('RGB')
+            
+            # 转换为numpy数组
+            image_array = np.array(pil_image)
+            
+            # 调整图片大小以提高性能
+            height, width = image_array.shape[:2]
+            if width > 800 or height > 800:
+                scale = min(800/width, 800/height)
+                new_width = int(width * scale)
+                new_height = int(height * scale)
+                image_array = cv2.resize(image_array, (new_width, new_height))
+            
+            # 关键：确保正确的色彩空间转换
+            # PIL使用RGB格式，需要转换为BGR供OpenCV处理
+            image_bgr = cv2.cvtColor(image_array, cv2.COLOR_RGB2BGR)
+            
+            # 转换BGR到HSV色彩空间进行更准确的颜色分析
+            image_hsv = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2HSV)
+            
+            # 在HSV空间进行K-Means聚类
+            pixels_hsv = image_hsv.reshape(-1, 3)
+            
+            # 应用K-Means聚类
+            kmeans = KMeans(n_clusters=num_colors, random_state=42, n_init=10)
+            labels = kmeans.fit_predict(pixels_hsv)
+            
+            # 获取HSV空间的聚类中心
+            colors_hsv = kmeans.cluster_centers_
+            
+            # 将HSV聚类中心转换回RGB用于显示
+            colors_rgb = []
+            percentages = []
+            
+            unique_labels, counts = np.unique(labels, return_counts=True)
+            total_pixels = len(pixels_hsv)
+            
+            for i, (hsv_color, count) in enumerate(zip(colors_hsv, counts)):
+                # 转换HSV到BGR再到RGB
+                hsv_pixel = np.uint8([[hsv_color]])
+                bgr_pixel = cv2.cvtColor(hsv_pixel, cv2.COLOR_HSV2BGR)
+                rgb_pixel = cv2.cvtColor(bgr_pixel, cv2.COLOR_BGR2RGB)[0][0]
                 
-                return result
-                
-            finally:
-                # 清理临时文件
-                os.unlink(tmp_file_path)
+                colors_rgb.append(rgb_pixel.tolist())
+                percentages.append(count / total_pixels)
+            
+            # 按占比排序
+            sorted_indices = np.argsort(percentages)[::-1]
+            colors_rgb = [colors_rgb[i] for i in sorted_indices]
+            percentages = [percentages[i] for i in sorted_indices]
+            
+            # 构建响应
+            colors_info = []
+            for rgb, percentage in zip(colors_rgb, percentages):
+                if percentage >= 0.05:  # 最小占比阈值
+                    hex_code = "#{:02x}{:02x}{:02x}".format(int(rgb[0]), int(rgb[1]), int(rgb[2]))
+                    
+                    # 简单的颜色命名
+                    r, g, b = rgb
+                    if r > 200 and g > 200 and b > 200:
+                        color_name = "浅色"
+                    elif r < 50 and g < 50 and b < 50:
+                        color_name = "深色"
+                    elif r > g and r > b:
+                        color_name = "红色系"
+                    elif g > r and g > b:
+                        color_name = "绿色系"
+                    elif b > r and b > g:
+                        color_name = "蓝色系"
+                    elif r > 150 and g > 150 and b < 100:
+                        color_name = "黄色系"
+                    elif r > 150 and g < 100 and b > 150:
+                        color_name = "紫色系"
+                    elif r < 100 and g > 150 and b > 150:
+                        color_name = "青色系"
+                    else:
+                        color_name = "混合色"
+                    
+                    colors_info.append({
+                        "hex_code": hex_code,
+                        "rgb": [int(c) for c in rgb],
+                        "percentage": percentage,
+                        "color_name": color_name
+                    })
+            
+            processing_time = (time.time() - start_time) * 1000
+            
+            return {
+                "success": True,
+                "colors": colors_info,
+                "total_colors_found": len(colors_info),
+                "processing_time_ms": processing_time,
+                "algorithm_used": "K-Means with HSV color space",
+                "image_dimensions": {"width": width, "height": height}
+            }
                 
         except Exception as e:
             logger.error(f"Base64图片分析错误: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"图片分析失败: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Base64图片分析失败: {str(e)}")
     
     @app.post("/nim/comprehensive-analysis")
     async def nim_comprehensive_analysis(request: dict):

@@ -124,7 +124,7 @@ class ColorExtractor:
             return "Mixed"
     
     async def download_image(self, image_url: str) -> np.ndarray:
-        """Download and preprocess image from URL"""
+        """Download and preprocess image from URL with proper color space conversion"""
         try:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -141,7 +141,7 @@ class ColorExtractor:
             if image.mode != 'RGB':
                 image = image.convert('RGB')
             
-            # Convert to numpy array
+            # Convert to numpy array (PIL uses RGB format)
             image_array = np.array(image)
             
             # Resize if too large (for performance)
@@ -152,47 +152,95 @@ class ColorExtractor:
                 new_height = int(height * scale)
                 image_array = cv2.resize(image_array, (new_width, new_height))
             
-            return image_array
+            # Convert RGB to BGR for OpenCV processing
+            # PIL uses RGB format, but OpenCV expects BGR
+            image_bgr = cv2.cvtColor(image_array, cv2.COLOR_RGB2BGR)
+            
+            return image_bgr
             
         except Exception as e:
             logger.error(f"Error downloading image: {str(e)}")
             raise HTTPException(status_code=400, detail=f"Failed to download image: {str(e)}")
     
     def extract_colors_cuml(self, image: np.ndarray, num_colors: int) -> tuple:
-        """Extract colors using cuML K-Means (GPU accelerated)"""
+        """Extract colors using cuML K-Means (GPU accelerated) with HSV color space"""
+        # Convert BGR to HSV for better color perception
+        image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        
         # Reshape image to 2D array of pixels
-        pixels = image.reshape(-1, 3).astype(np.float32)
+        pixels_hsv = image_hsv.reshape(-1, 3).astype(np.float32)
         
-        # Apply K-Means clustering
+        # Apply K-Means clustering in HSV space
         kmeans = cuMLKMeans(n_clusters=num_colors, random_state=42)
-        labels = kmeans.fit_predict(pixels)
+        labels = kmeans.fit_predict(pixels_hsv)
         
-        # Get cluster centers (dominant colors)
-        colors = kmeans.cluster_centers_
+        # Get cluster centers (dominant colors in HSV)
+        colors_hsv = kmeans.cluster_centers_
+        
+        # Convert HSV cluster centers back to BGR for display
+        colors_bgr = []
+        for hsv_color in colors_hsv:
+            # Create single pixel HSV image
+            hsv_pixel = np.uint8([[hsv_color]])
+            # Convert to BGR
+            bgr_pixel = cv2.cvtColor(hsv_pixel, cv2.COLOR_HSV2BGR)
+            colors_bgr.append(bgr_pixel[0][0])
+        
+        colors_bgr = np.array(colors_bgr)
+        
+        # Convert BGR to RGB for final output (web standard)
+        colors_rgb = []
+        for bgr_color in colors_bgr:
+            rgb_color = cv2.cvtColor(np.uint8([[bgr_color]]), cv2.COLOR_BGR2RGB)[0][0]
+            colors_rgb.append(rgb_color)
+        
+        colors_rgb = np.array(colors_rgb)
         
         # Calculate color percentages
         unique_labels, counts = np.unique(labels, return_counts=True)
-        percentages = counts / len(pixels)
+        percentages = counts / len(pixels_hsv)
         
-        return colors, percentages
+        return colors_rgb, percentages
     
     def extract_colors_sklearn(self, image: np.ndarray, num_colors: int) -> tuple:
-        """Extract colors using sklearn K-Means (CPU fallback)"""
+        """Extract colors using sklearn K-Means (CPU fallback) with HSV color space"""
+        # Convert BGR to HSV for better color perception
+        image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        
         # Reshape image to 2D array of pixels
-        pixels = image.reshape(-1, 3)
+        pixels_hsv = image_hsv.reshape(-1, 3)
         
-        # Apply K-Means clustering
+        # Apply K-Means clustering in HSV space
         kmeans = SklearnKMeans(n_clusters=num_colors, random_state=42, n_init=10)
-        labels = kmeans.fit_predict(pixels)
+        labels = kmeans.fit_predict(pixels_hsv)
         
-        # Get cluster centers (dominant colors)
-        colors = kmeans.cluster_centers_
+        # Get cluster centers (dominant colors in HSV)
+        colors_hsv = kmeans.cluster_centers_
+        
+        # Convert HSV cluster centers back to BGR for display
+        colors_bgr = []
+        for hsv_color in colors_hsv:
+            # Create single pixel HSV image
+            hsv_pixel = np.uint8([[hsv_color]])
+            # Convert to BGR
+            bgr_pixel = cv2.cvtColor(hsv_pixel, cv2.COLOR_HSV2BGR)
+            colors_bgr.append(bgr_pixel[0][0])
+        
+        colors_bgr = np.array(colors_bgr)
+        
+        # Convert BGR to RGB for final output (web standard)
+        colors_rgb = []
+        for bgr_color in colors_bgr:
+            rgb_color = cv2.cvtColor(np.uint8([[bgr_color]]), cv2.COLOR_BGR2RGB)[0][0]
+            colors_rgb.append(rgb_color)
+        
+        colors_rgb = np.array(colors_rgb)
         
         # Calculate color percentages
         unique_labels, counts = np.unique(labels, return_counts=True)
-        percentages = counts / len(pixels)
+        percentages = counts / len(pixels_hsv)
         
-        return colors, percentages
+        return colors_rgb, percentages
     
     async def extract_dominant_colors(
         self, 

@@ -30,24 +30,68 @@ export const ImageUpload: React.FC<Props> = ({ onAnalysisComplete, className = '
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageSelect = useCallback((file: File) => {
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = () => {
+        // 计算压缩后的尺寸，保持宽高比
+        const maxWidth = 1200;
+        const maxHeight = 1200;
+        let { width, height } = img;
+        
+        if (width > height) {
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = (width * maxHeight) / height;
+            height = maxHeight;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // 绘制压缩后的图片
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        // 转换为base64，质量设为0.8
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        resolve(compressedDataUrl);
+      };
+      
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleFileSelect = async (file: File) => {
+    if (file.size > 50 * 1024 * 1024) { // 50MB limit for original file
+      toast.error('文件大小不能超过50MB');
+      return;
+    }
+
+    try {
+      const compressedImage = await compressImage(file);
+      setSelectedImage(compressedImage);
+      // 等待状态更新后再分析颜色
+      setTimeout(() => analyzeColors(), 100);
+    } catch (error) {
+      toast.error('图片处理失败，请重试');
+    }
+  };
+
+  const handleImageSelect = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) {
       toast.error('请选择图片文件');
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error('图片大小不能超过10MB');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      setSelectedImage(result);
-      setAnalysisResult(null);
-    };
-    reader.readAsDataURL(file);
+    await handleFileSelect(file);
   }, []);
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {

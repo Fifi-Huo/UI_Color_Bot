@@ -102,7 +102,16 @@ export const ColorAnalysisPage: React.FC = () => {
 
         if (response.ok) {
           const data = await response.json();
-          palettes[type] = data.palette;
+          // 转换后端返回的颜色对象数组为字符串数组
+          const paletteData = data.palette;
+          if (paletteData && paletteData.colors) {
+            palettes[type] = {
+              ...paletteData,
+              colors: paletteData.colors.map((color: any) => 
+                typeof color === 'string' ? color : color.hex_code
+              )
+            };
+          }
         }
       }
 
@@ -171,105 +180,142 @@ export const ColorAnalysisPage: React.FC = () => {
           </div>
         )}
 
-        {/* Color Analysis Results */}
+        {/* Color Palette Panel */}
         {analysisResult && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-                <IconEye className="mr-2" size={24} />
-                颜色分析结果
+                <IconPalette className="mr-2" size={24} />
+                提取颜色色板
               </h2>
-              {analysisResult && currentImageUrl && (
-                <button
-                  onClick={() => generateAnnotatedImage(currentImageUrl, analysisResult.colors)}
-                  disabled={isAnnotating}
-                  className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
-                >
-                  {isAnnotating ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      生成中...
-                    </>
-                  ) : (
-                    <>
-                      <IconPalette className="mr-2" size={16} />
-                      重新生成标注图
-                    </>
-                  )}
-                </button>
-              )}
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  共 {analysisResult.total_colors_found} 种颜色
+                </span>
+                {currentImageUrl && (
+                  <button
+                    onClick={() => generateAnnotatedImage(currentImageUrl, analysisResult.colors)}
+                    disabled={isAnnotating}
+                    className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                  >
+                    {isAnnotating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        生成中...
+                      </>
+                    ) : (
+                      <>
+                        <IconEye className="mr-2" size={16} />
+                        生成标注图
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            {/* Color Palette Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-6">
               {analysisResult.colors.map((color: ColorInfo, index: number) => (
-                <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <div key={index} className="group relative">
+                  {/* Color Block */}
                   <div
-                    className="w-full h-20 rounded-lg mb-3 border border-gray-200 dark:border-gray-600"
+                    className="w-full h-24 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
                     style={{ backgroundColor: color.hex_code }}
+                    onClick={() => copyToClipboard(color.hex_code)}
+                    title={`点击复制 ${color.hex_code}`}
                   />
                   
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <span className="font-medium text-gray-900 dark:text-white">HEX:</span>
-                      <span 
-                        className="ml-2 cursor-pointer text-blue-600 dark:text-blue-400 hover:underline"
-                        onClick={() => copyToClipboard(color.hex_code)}
-                      >
-                        {color.hex_code}
-                      </span>
+                  {/* Color Info */}
+                  <div className="mt-2 text-center">
+                    <div className="text-sm font-mono font-medium text-gray-900 dark:text-white">
+                      {color.hex_code}
                     </div>
-                    
-                    <div>
-                      <span className="font-medium text-gray-900 dark:text-white">RGB:</span>
-                      <span className="ml-2 text-gray-600 dark:text-gray-300">
-                        {color.rgb.join(', ')}
-                      </span>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                      RGB({color.rgb.join(', ')})
                     </div>
-                    
-                    <div>
-                      <span className="font-medium text-gray-900 dark:text-white">占比:</span>
-                      <span className="ml-2 text-gray-600 dark:text-gray-300">
-                        {(color.percentage * 100).toFixed(1)}%
-                      </span>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">
+                      {(color.percentage * 100).toFixed(1)}%
                     </div>
-                    
-                    <div>
-                      <span className="font-medium text-gray-900 dark:text-white">颜色:</span>
-                      <span className="ml-2 text-gray-600 dark:text-gray-300">
-                        {color.color_name}
-                      </span>
-                    </div>
+                  </div>
+                  
+                  {/* Hover Tooltip */}
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    {color.color_name}
                   </div>
                 </div>
               ))}
             </div>
             
-            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <span className="font-medium text-gray-900 dark:text-white">处理时间:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-300">
-                    {analysisResult.processing_time_ms.toFixed(1)}ms
-                  </span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-900 dark:text-white">算法:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-300">
-                    {analysisResult.algorithm_used}
-                  </span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-900 dark:text-white">图片尺寸:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-300">
-                    {analysisResult.image_dimensions.width} × {analysisResult.image_dimensions.height}
-                  </span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-900 dark:text-white">颜色数量:</span>
-                  <span className="ml-2 text-gray-600 dark:text-gray-300">
-                    {analysisResult.total_colors_found}
-                  </span>
-                </div>
+            {/* Color Palette Actions */}
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => {
+                    const hexColors = analysisResult.colors.map(c => c.hex_code).join(', ');
+                    copyToClipboard(hexColors);
+                    toast.success('所有HEX颜色已复制到剪贴板');
+                  }}
+                  className="flex items-center px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <IconDownload className="mr-2" size={14} />
+                  复制所有HEX
+                </button>
+                
+                <button
+                  onClick={() => {
+                    const rgbColors = analysisResult.colors.map(c => `rgb(${c.rgb.join(', ')})`).join(', ');
+                    copyToClipboard(rgbColors);
+                    toast.success('所有RGB颜色已复制到剪贴板');
+                  }}
+                  className="flex items-center px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <IconDownload className="mr-2" size={14} />
+                  复制所有RGB
+                </button>
+                
+                <button
+                  onClick={() => {
+                    const paletteData = {
+                      name: `Color Palette - ${new Date().toLocaleDateString()}`,
+                      colors: analysisResult.colors.map(color => ({
+                        hex: color.hex_code,
+                        rgb: color.rgb,
+                        name: color.color_name,
+                        percentage: color.percentage
+                      })),
+                      metadata: {
+                        total_colors: analysisResult.total_colors_found,
+                        processing_time: analysisResult.processing_time_ms,
+                        algorithm: analysisResult.algorithm_used,
+                        image_dimensions: analysisResult.image_dimensions,
+                        created_at: new Date().toISOString()
+                      }
+                    };
+                    
+                    const blob = new Blob([JSON.stringify(paletteData, null, 2)], {
+                      type: 'application/json',
+                    });
+                    
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `color-palette-${Date.now()}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    toast.success('色板数据已导出');
+                  }}
+                  className="flex items-center px-3 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  <IconDownload className="mr-2" size={14} />
+                  导出色板
+                </button>
+              </div>
+              
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                处理时间: {analysisResult.processing_time_ms.toFixed(1)}ms | 
+                算法: {analysisResult.algorithm_used} | 
+                尺寸: {analysisResult.image_dimensions.width} × {analysisResult.image_dimensions.height}
               </div>
             </div>
           </div>
