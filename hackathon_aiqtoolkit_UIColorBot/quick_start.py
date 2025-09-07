@@ -362,7 +362,7 @@ def create_simple_app():
     @app.post("/annotate")
     async def annotate_image(request: dict):
         """
-        图片颜色标注端点
+        图片颜色标注端点 - 右侧布局设计
         接收图片URL和颜色列表，返回标注后的图片
         """
         try:
@@ -375,47 +375,93 @@ def create_simple_app():
             if not colors:
                 return {"error": "请提供颜色列表"}
             
-            # 下载图片
+            # 处理图片URL（支持HTTP URL和base64 data URL）
+            if image_url.startswith('data:image'):
+                # 处理base64编码的图片
+                try:
+                    header, encoded = image_url.split(',', 1)
+                    image_data = base64.b64decode(encoded)
+                    image = Image.open(io.BytesIO(image_data))
+                except Exception as e:
+                    return {"error": f"无法解析base64图片: {str(e)}"}
+            else:
+                # 处理HTTP URL
+                try:
+                    response = requests.get(image_url)
+                    if response.status_code != 200:
+                        return {"error": "无法下载图片"}
+                    image = Image.open(io.BytesIO(response.content))
+                except Exception as e:
+                    return {"error": f"无法下载图片: {str(e)}"}
             
-            response = requests.get(image_url)
-            if response.status_code != 200:
-                return {"error": "无法下载图片"}
-            
-            # 将图片转换为PIL Image
-            image = Image.open(io.BytesIO(response.content))
+            # 转换为RGB格式
             image = image.convert('RGB')
             
             # 转换为numpy数组用于OpenCV处理
             img_array = np.array(image)
             img_cv = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
             
-            # 使用K-Means重新聚类以获得颜色区域
+            height, width = img_cv.shape[:2]
             
-            # 重塑图片数据
+            # 按占比降序排列颜色
+            sorted_colors = sorted(colors, key=lambda x: x.get("proportion", 0), reverse=True)
+            
+            # 使用K-Means聚类获取颜色区域坐标
             data = img_cv.reshape((-1, 3))
             data = np.float32(data)
             
-            # 执行K-Means聚类
-            num_colors = len(colors)
+            num_colors = len(sorted_colors)
             criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0)
             _, labels, centers = cv2.kmeans(data, num_colors, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
             
             # 将标签重塑回图片形状
             labels = labels.reshape(img_cv.shape[:2])
             
-            # 创建标注图
-            annotated_img = img_cv.copy()
-            height, width = img_cv.shape[:2]
+            # 计算右侧标注区域宽度
+            annotation_width = 300
+            total_width = width + annotation_width
             
-            # 为每个颜色区域创建轮廓和标注
-            for i, color_info in enumerate(colors):
+            # 创建扩展画布：原图 + 右侧标注区域
+            extended_img = np.ones((height, total_width, 3), dtype=np.uint8) * 250  # 浅灰背景
+            extended_img[:height, :width] = img_cv  # 放置原图
+            
+            # 计算每个颜色区域的中心点（用于引导线）
+            color_centers = []
+            for i, color_info in enumerate(sorted_colors):
                 # 创建该颜色的掩码
                 mask = (labels == i).astype(np.uint8) * 255
                 
                 # 查找轮廓
                 contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 
-                # 绘制轮廓
+                if contours:
+                    # 找到最大的轮廓
+                    largest_contour = max(contours, key=cv2.contourArea)
+                    
+                    # 计算轮廓的质心
+                    M = cv2.moments(largest_contour)
+                    if M["m00"] != 0:
+                        center_x = int(M["m10"] / M["m00"])
+                        center_y = int(M["m01"] / M["m00"])
+                        color_centers.append((center_x, center_y))
+                    else:
+                        color_centers.append((width // 2, height // 2))
+                else:
+                    color_centers.append((width // 2, height // 2))
+            
+            # 在右侧区域绘制颜色标注
+            annotation_start_x = width + 20
+            color_block_size = 40
+            text_margin = 10
+            
+            # 计算颜色块的垂直间距
+            available_height = height - 40  # 留出上下边距
+            if len(sorted_colors) > 1:
+                vertical_spacing = available_height // len(sorted_colors)
+            else:
+                vertical_spacing = available_height
+            
+            for i, color_info in enumerate(sorted_colors):
                 hex_color = color_info.get("hex", "#FFFFFF")
                 rgb_color = color_info.get("rgb", [255, 255, 255])
                 proportion = color_info.get("proportion", 0.0)
@@ -423,68 +469,51 @@ def create_simple_app():
                 # BGR格式用于OpenCV
                 bgr_color = (int(rgb_color[2]), int(rgb_color[1]), int(rgb_color[0]))
                 
-                # 绘制轮廓边界
-                cv2.drawContours(annotated_img, contours, -1, bgr_color, 3)
-                
-                # 在最大轮廓上添加文本标注
-                if contours:
-                    # 找到最大的轮廓
-                    largest_contour = max(contours, key=cv2.contourArea)
-                    
-                    # 计算轮廓的边界框
-                    x, y, w, h = cv2.boundingRect(largest_contour)
-                    
-                    # 如果区域足够大，添加文本
-                    if w > 50 and h > 30:
-                        # 计算文本位置
-                        text_x = x + w // 2
-                        text_y = y + h // 2
-                        
-                        # 创建标注文本
-                        text = f"{hex_color}\n{proportion:.1%}"
-                        
-                        # 添加背景矩形
-                        text_size = cv2.getTextSize(hex_color, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)[0]
-                        cv2.rectangle(annotated_img, 
-                                    (text_x - text_size[0]//2 - 5, text_y - 25),
-                                    (text_x + text_size[0]//2 + 5, text_y + 10),
-                                    (255, 255, 255), -1)
-                        
-                        # 添加文本
-                        cv2.putText(annotated_img, hex_color, 
-                                  (text_x - text_size[0]//2, text_y - 5),
-                                  cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
-                        
-                        cv2.putText(annotated_img, f"{proportion:.1%}", 
-                                  (text_x - text_size[0]//2, text_y + 15),
-                                  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
-            
-            # 添加颜色图例
-            legend_height = 40 * len(colors) + 20
-            legend_width = 200
-            
-            # 扩展图片以添加图例
-            extended_img = np.zeros((height + legend_height, max(width, legend_width), 3), dtype=np.uint8)
-            extended_img[:height, :width] = annotated_img
-            extended_img[height:, :] = (240, 240, 240)  # 浅灰色背景
-            
-            # 绘制图例
-            for i, color_info in enumerate(colors):
-                y_pos = height + 20 + i * 40
-                hex_color = color_info.get("hex", "#FFFFFF")
-                rgb_color = color_info.get("rgb", [255, 255, 255])
-                proportion = color_info.get("proportion", 0.0)
-                
-                bgr_color = (int(rgb_color[2]), int(rgb_color[1]), int(rgb_color[0]))
+                # 计算当前颜色块的Y位置
+                block_y = 20 + i * vertical_spacing + vertical_spacing // 2
                 
                 # 绘制颜色方块
-                cv2.rectangle(extended_img, (10, y_pos - 15), (40, y_pos + 15), bgr_color, -1)
-                cv2.rectangle(extended_img, (10, y_pos - 15), (40, y_pos + 15), (0, 0, 0), 2)
+                block_top_left = (annotation_start_x, block_y - color_block_size // 2)
+                block_bottom_right = (annotation_start_x + color_block_size, block_y + color_block_size // 2)
                 
-                # 添加文本
-                text = f"{hex_color} ({proportion:.1%})"
-                cv2.putText(extended_img, text, (50, y_pos + 5),
-                          cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 1)
+                cv2.rectangle(extended_img, block_top_left, block_bottom_right, bgr_color, -1)
+                cv2.rectangle(extended_img, block_top_left, block_bottom_right, (0, 0, 0), 2)
+                
+                # 绘制引导线（从图片中的颜色区域到右侧色块）
+                if i < len(color_centers):
+                    start_point = color_centers[i]
+                    end_point = (annotation_start_x, block_y)
+                    
+                    # 绘制细引导线
+                    cv2.line(extended_img, start_point, end_point, (100, 100, 100), 1)
+                    
+                    # 在原图中标记颜色区域中心点
+                    cv2.circle(extended_img, start_point, 5, bgr_color, -1)
+                    cv2.circle(extended_img, start_point, 5, (0, 0, 0), 2)
+                
+                # 添加文本标注
+                text_x = annotation_start_x + color_block_size + text_margin
+                
+                # HEX值
+                hex_text = hex_color
+                cv2.putText(extended_img, hex_text, (text_x, block_y - 10),
+                          cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+                
+                # RGB值
+                rgb_text = f"RGB({rgb_color[0]},{rgb_color[1]},{rgb_color[2]})"
+                cv2.putText(extended_img, rgb_text, (text_x, block_y + 5),
+                          cv2.FONT_HERSHEY_SIMPLEX, 0.4, (60, 60, 60), 1)
+                
+                # 占比
+                proportion_text = f"{proportion:.1%}"
+                cv2.putText(extended_img, proportion_text, (text_x, block_y + 20),
+                          cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+            
+            # 添加标题
+            title_text = "Color Analysis"
+            title_x = annotation_start_x
+            cv2.putText(extended_img, title_text, (title_x, 30),
+                      cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
             
             # 转换回RGB并编码为base64
             final_img_rgb = cv2.cvtColor(extended_img, cv2.COLOR_BGR2RGB)
@@ -502,11 +531,12 @@ def create_simple_app():
                     "width": final_img_pil.width,
                     "height": final_img_pil.height
                 },
-                "colors_annotated": len(colors),
+                "colors_annotated": len(sorted_colors),
                 "processing_info": {
                     "original_size": f"{width}x{height}",
                     "final_size": f"{final_img_pil.width}x{final_img_pil.height}",
-                    "legend_added": True
+                    "layout": "right_side_annotation",
+                    "features": ["color_blocks", "guide_lines", "sorted_by_proportion"]
                 }
             }
             

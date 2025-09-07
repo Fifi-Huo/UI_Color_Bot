@@ -290,24 +290,62 @@ const handler = async (req: Request): Promise<Response> => {
               paletteData = await paletteResponse.json();
             }
 
-            // Enhance the message with color analysis results
+            // Generate annotated image
+            let annotatedImageData = null;
+            try {
+              const annotateResponse = await fetch('http://127.0.0.1:8001/annotate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  image_url: imageAttachment.content,
+                  colors: colorData.colors.map((color: any) => ({
+                    hex: color.hex_code,
+                    rgb: [
+                      parseInt(color.hex_code.slice(1, 3), 16),
+                      parseInt(color.hex_code.slice(3, 5), 16),
+                      parseInt(color.hex_code.slice(5, 7), 16)
+                    ],
+                    proportion: color.percentage
+                  }))
+                }),
+              });
+
+              if (annotateResponse.ok) {
+                annotatedImageData = await annotateResponse.json();
+              }
+            } catch (error) {
+              console.error('Image annotation failed:', error);
+            }
+
+            // Enhance the message with color analysis results and annotated image
             const colorAnalysisText = `
-图片颜色分析结果：
+📸 **图片颜色分析完成**
+
+🎨 **提取的颜色：**
 ${colorData.colors.map((color: any, i: number) => 
   `${i+1}. ${color.hex_code} (${color.color_name}, ${(color.percentage * 100).toFixed(1)}%)`
 ).join('\n')}
 
-处理时间: ${colorData.processing_time_ms.toFixed(1)}ms
-算法: ${colorData.algorithm_used}
-图片尺寸: ${colorData.image_dimensions.width} × ${colorData.image_dimensions.height}
+⚡ **处理信息：**
+- 处理时间: ${colorData.processing_time_ms.toFixed(1)}ms
+- 算法: ${colorData.algorithm_used}
+- 图片尺寸: ${colorData.image_dimensions.width} × ${colorData.image_dimensions.height}
 
-${paletteData ? `
-推荐配色方案 (${paletteData.palette?.palette_type || '互补色'}):
+${paletteData ? `🎯 **推荐配色方案** (${paletteData.palette?.palette_type || '互补色'}):
 ${paletteData.palette?.colors?.join(', ') || ''}
 和谐度: ${((paletteData.palette?.harmony_score || 0) * 100).toFixed(0)}%
 ` : ''}
 
-用户问题: ${userMessage}`;
+${annotatedImageData?.success ? `🖼️ **颜色标注图已生成**
+![颜色标注图](${annotatedImageData.annotated_image})
+
+📊 **标注信息：**
+- 布局: ${annotatedImageData.processing_info.layout}
+- 功能: ${annotatedImageData.processing_info.features.join(', ')}
+- 最终尺寸: ${annotatedImageData.processing_info.final_size}
+` : ''}
+
+${userMessage ? `💬 **用户问题:** ${userMessage}` : ''}`;
 
             payload = { message: colorAnalysisText };
           }
