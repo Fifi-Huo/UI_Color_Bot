@@ -803,13 +803,8 @@ def create_simple_app():
             
             client = BailianClient()
             
-            # 检查是否是颜色相关的查询
-            if any(keyword in user_message.lower() for keyword in ['颜色', '配色', 'color', '主题', '设计']):
-                enhanced_message = client.get_color_suggestions(user_message)
-            else:
-                enhanced_message = user_message
-            
-            result = await client.chat_completion(enhanced_message)
+            # 使用增强聊天功能，支持智能NIM调用
+            result = await client.enhanced_chat_completion(user_message)
             
             if result['success']:
                 return {
@@ -842,13 +837,8 @@ def create_simple_app():
                 
                 client = BailianClient()
                 
-                # 检查是否是颜色相关的查询
-                if any(keyword in message.lower() for keyword in ['颜色', '配色', 'color', '主题', '设计']):
-                    enhanced_message = client.get_color_suggestions(message)
-                else:
-                    enhanced_message = message
-                
-                async for chunk in client.chat_stream(enhanced_message):
+                # 使用增强流式聊天功能，支持智能NIM调用
+                async for chunk in client.enhanced_chat_stream(message):
                     if chunk['success']:
                         response_chunk = {
                             "choices": [{

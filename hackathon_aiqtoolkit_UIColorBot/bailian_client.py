@@ -9,6 +9,8 @@ import json
 import httpx
 from typing import Dict, Any, AsyncGenerator
 import asyncio
+import base64
+import re
 
 class BailianClient:
     """百炼API客户端"""
@@ -32,7 +34,7 @@ class BailianClient:
             "messages": [
                 {
                     "role": "system",
-                    "content": "你是一个专业的UI设计助手，专门帮助用户解决界面设计和颜色搭配问题。请用中文回答。"
+                    "content": "你是一个专业的UI设计顾问，具备调用NVIDIA NIM颜色分析服务的能力。当用户需要颜色分析时，你可以调用以下工具：\n1. analyze_image_colors - 分析图片中的主要颜色\n2. generate_color_palette - 基于颜色生成配色方案\n3. check_color_accessibility - 检查颜色的可访问性\n\n请根据用户需求智能选择合适的工具，并用专业的中文回答整合分析结果。"
                 },
                 {
                     "role": "user", 
@@ -90,7 +92,7 @@ class BailianClient:
             "messages": [
                 {
                     "role": "system",
-                    "content": "你是一个专业的UI设计助手，专门帮助用户解决界面设计和颜色搭配问题。请用中文回答。"
+                    "content": "你是一个专业的UI设计顾问，具备调用NVIDIA NIM颜色分析服务的能力。当用户需要颜色分析时，你可以调用以下工具：\n1. analyze_image_colors - 分析图片中的主要颜色\n2. generate_color_palette - 基于颜色生成配色方案\n3. check_color_accessibility - 检查颜色的可访问性\n\n请根据用户需求智能选择合适的工具，并用专业的中文回答整合分析结果。"
                 },
                 {
                     "role": "user",
@@ -138,22 +140,151 @@ class BailianClient:
                     "error": f"流式请求失败: {str(e)}"
                 }
 
-    def get_color_suggestions(self, description: str) -> str:
-        """获取颜色建议的专门提示词"""
-        return f"""
-        作为UI设计专家，请为以下场景推荐合适的颜色搭配：
-
-        场景描述：{description}
-
-        请提供：
-        1. 主色调建议（包含具体的十六进制颜色代码）
-        2. 辅助色彩搭配
-        3. 文字颜色建议
-        4. 背景色建议
-        5. 简要说明选择这些颜色的设计理由
-
-        请确保颜色搭配符合现代UI设计原则，具有良好的对比度和可访问性。
-        """
+    async def analyze_user_intent(self, message: str) -> Dict[str, Any]:
+        """分析用户意图，判断是否需要调用NIM服务"""
+        # 检查是否包含图片分析请求
+        image_keywords = ['分析图片', '图片颜色', '提取颜色', '图像分析', '颜色分析']
+        palette_keywords = ['配色方案', '调色板', '颜色搭配', '配色建议', '色彩方案']
+        accessibility_keywords = ['可访问性', '对比度', '色盲', 'WCAG', '无障碍']
+        
+        intent = {
+            'needs_image_analysis': any(keyword in message for keyword in image_keywords),
+            'needs_palette_generation': any(keyword in message for keyword in palette_keywords),
+            'needs_accessibility_check': any(keyword in message for keyword in accessibility_keywords),
+            'has_image': 'data:image' in message or '图片' in message,
+            'has_color': re.search(r'#[0-9a-fA-F]{6}|rgb\(|颜色.*#', message)
+        }
+        
+        return intent
+    
+    async def call_nim_service(self, service_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        """调用NIM服务"""
+        base_url = "http://localhost:8001"
+        
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                if service_type == "analyze_image":
+                    response = await client.post(f"{base_url}/analyze-image-base64", json=data)
+                elif service_type == "generate_palette":
+                    response = await client.post(f"{base_url}/color/palette", json=data)
+                elif service_type == "check_accessibility":
+                    response = await client.post(f"{base_url}/color/accessibility", json=data)
+                else:
+                    return {"success": False, "error": f"未知的服务类型: {service_type}"}
+                
+                if response.status_code == 200:
+                    return {"success": True, "data": response.json()}
+                else:
+                    return {"success": False, "error": f"服务调用失败: {response.status_code}"}
+                    
+        except Exception as e:
+            return {"success": False, "error": f"NIM服务调用异常: {str(e)}"}
+    
+    async def enhanced_chat_completion(self, message: str) -> Dict[str, Any]:
+        """增强的聊天完成，支持智能NIM调用"""
+        try:
+            # 分析用户意图
+            intent = await self.analyze_user_intent(message)
+            
+            # 提取图片数据（如果有）
+            image_data = None
+            if intent['has_image']:
+                # 提取base64图片数据
+                image_match = re.search(r'data:image/[^;]+;base64,([^\s]+)', message)
+                if image_match:
+                    image_data = image_match.group(1)
+            
+            # 提取颜色数据（如果有）
+            color_data = None
+            if intent['has_color']:
+                color_match = re.search(r'#([0-9a-fA-F]{6})', message)
+                if color_match:
+                    color_data = f"#{color_match.group(1)}"
+            
+            # 调用相应的NIM服务
+            nim_results = {}
+            
+            if intent['needs_image_analysis'] and image_data:
+                result = await self.call_nim_service("analyze_image", {"image_data": image_data})
+                if result['success']:
+                    nim_results['image_analysis'] = result['data']
+            
+            if intent['needs_palette_generation'] and color_data:
+                result = await self.call_nim_service("generate_palette", {"base_color": color_data})
+                if result['success']:
+                    nim_results['palette_generation'] = result['data']
+            
+            if intent['needs_accessibility_check'] and color_data:
+                result = await self.call_nim_service("check_accessibility", {"color": color_data})
+                if result['success']:
+                    nim_results['accessibility_check'] = result['data']
+            
+            # 构建增强的消息
+            enhanced_message = message
+            if nim_results:
+                enhanced_message += "\n\n=== NIM分析结果 ===\n"
+                for service, data in nim_results.items():
+                    enhanced_message += f"\n{service}: {json.dumps(data, ensure_ascii=False, indent=2)}\n"
+                enhanced_message += "\n请基于以上分析结果，提供专业的UI设计建议。"
+            
+            # 调用AI进行回答
+            return await self.chat_completion(enhanced_message)
+            
+        except Exception as e:
+            return {"success": False, "error": f"增强聊天处理失败: {str(e)}"}
+    
+    async def enhanced_chat_stream(self, message: str) -> AsyncGenerator[Dict[str, Any], None]:
+        """增强的流式聊天，支持智能NIM调用"""
+        try:
+            # 分析用户意图
+            intent = await self.analyze_user_intent(message)
+            
+            # 提取图片数据（如果有）
+            image_data = None
+            if intent['has_image']:
+                image_match = re.search(r'data:image/[^;]+;base64,([^\s]+)', message)
+                if image_match:
+                    image_data = image_match.group(1)
+            
+            # 提取颜色数据（如果有）
+            color_data = None
+            if intent['has_color']:
+                color_match = re.search(r'#([0-9a-fA-F]{6})', message)
+                if color_match:
+                    color_data = f"#{color_match.group(1)}"
+            
+            # 调用相应的NIM服务
+            nim_results = {}
+            
+            if intent['needs_image_analysis'] and image_data:
+                result = await self.call_nim_service("analyze_image", {"image_data": image_data})
+                if result['success']:
+                    nim_results['image_analysis'] = result['data']
+            
+            if intent['needs_palette_generation'] and color_data:
+                result = await self.call_nim_service("generate_palette", {"base_color": color_data})
+                if result['success']:
+                    nim_results['palette_generation'] = result['data']
+            
+            if intent['needs_accessibility_check'] and color_data:
+                result = await self.call_nim_service("check_accessibility", {"color": color_data})
+                if result['success']:
+                    nim_results['accessibility_check'] = result['data']
+            
+            # 构建增强的消息
+            enhanced_message = message
+            if nim_results:
+                enhanced_message += "\n\n=== NIM分析结果 ===\n"
+                for service, data in nim_results.items():
+                    enhanced_message += f"\n{service}: {json.dumps(data, ensure_ascii=False, indent=2)}\n"
+                enhanced_message += "\n请基于以上分析结果，提供专业的UI设计建议。"
+            
+            # 调用AI进行流式回答
+            async for chunk in self.chat_stream(enhanced_message):
+                yield chunk
+                
+        except Exception as e:
+            yield {"success": False, "error": f"增强流式聊天处理失败: {str(e)}"}
 
 # 测试函数
 async def test_bailian_client():
