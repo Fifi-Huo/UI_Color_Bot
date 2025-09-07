@@ -452,6 +452,105 @@ def create_simple_app():
         except Exception as e:
             return {"error": f"获取调色板类型失败: {str(e)}"}
     
+    @app.post("/pick-color")
+    async def pick_color_at_position(request: dict):
+        """
+        点击取色端点 - 获取图片指定位置的颜色
+        接收图片URL和点击坐标，返回该位置的颜色信息
+        """
+        try:
+            image_url = request.get("image_url", "")
+            x = request.get("x", 0)
+            y = request.get("y", 0)
+            
+            if not image_url:
+                return {"error": "请提供图片URL"}
+            
+            # 处理图片URL（支持HTTP URL和base64 data URL）
+            if image_url.startswith('data:image'):
+                # 处理base64编码的图片
+                try:
+                    header, encoded = image_url.split(',', 1)
+                    image_data = base64.b64decode(encoded)
+                    image = Image.open(io.BytesIO(image_data))
+                except Exception as e:
+                    return {"error": f"无法解析base64图片: {str(e)}"}
+            else:
+                # 处理HTTP URL
+                try:
+                    response = requests.get(image_url)
+                    if response.status_code != 200:
+                        return {"error": "无法下载图片"}
+                    image = Image.open(io.BytesIO(response.content))
+                except Exception as e:
+                    return {"error": f"无法下载图片: {str(e)}"}
+            
+            # 转换为RGB格式
+            image = image.convert('RGB')
+            width, height = image.size
+            
+            # 验证坐标范围
+            if x < 0 or x >= width or y < 0 or y >= height:
+                return {"error": f"坐标超出图片范围: ({x}, {y}), 图片尺寸: {width}x{height}"}
+            
+            # 获取指定位置的像素颜色
+            pixel_color = image.getpixel((x, y))
+            rgb_color = list(pixel_color[:3])  # 确保只取RGB三个通道
+            
+            # 转换为十六进制
+            hex_color = "#{:02x}{:02x}{:02x}".format(rgb_color[0], rgb_color[1], rgb_color[2])
+            
+            # 获取颜色名称（简单分类）
+            def get_color_name(rgb):
+                r, g, b = rgb
+                # 转换为HSV进行颜色分类
+                max_val = max(r, g, b)
+                min_val = min(r, g, b)
+                diff = max_val - min_val
+                
+                if diff < 30:  # 灰度颜色
+                    if max_val > 200:
+                        return "白色"
+                    elif max_val < 50:
+                        return "黑色"
+                    else:
+                        return "灰色"
+                
+                # 计算主要颜色
+                if r > g and r > b:
+                    if g > b:
+                        return "橙色" if r - g < 50 else "红色"
+                    else:
+                        return "粉色" if b > 100 else "红色"
+                elif g > r and g > b:
+                    if r > b:
+                        return "黄绿色" if g - r < 50 else "绿色"
+                    else:
+                        return "青色" if b > 100 else "绿色"
+                elif b > r and b > g:
+                    if r > g:
+                        return "紫色"
+                    else:
+                        return "蓝色"
+                else:
+                    return "混合色"
+            
+            color_name = get_color_name(rgb_color)
+            
+            return {
+                "success": True,
+                "color": {
+                    "hex": hex_color,
+                    "rgb": rgb_color,
+                    "color_name": color_name,
+                    "position": {"x": x, "y": y}
+                },
+                "image_dimensions": {"width": width, "height": height}
+            }
+            
+        except Exception as e:
+            return {"error": f"取色失败: {str(e)}"}
+    
     @app.post("/annotate")
     async def annotate_image(request: dict):
         """
@@ -499,17 +598,6 @@ def create_simple_app():
             # 按占比降序排列颜色
             sorted_colors = sorted(colors, key=lambda x: x.get("proportion", 0), reverse=True)
             
-            # 使用K-Means聚类获取颜色区域坐标
-            data = img_cv.reshape((-1, 3))
-            data = np.float32(data)
-            
-            num_colors = len(sorted_colors)
-            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0)
-            _, labels, centers = cv2.kmeans(data, num_colors, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-            
-            # 将标签重塑回图片形状
-            labels = labels.reshape(img_cv.shape[:2])
-            
             # 计算右侧标注区域宽度
             annotation_width = 300
             total_width = width + annotation_width
@@ -520,27 +608,82 @@ def create_simple_app():
             
             # 计算每个颜色区域的中心点（用于引导线）
             color_centers = []
-            for i, color_info in enumerate(sorted_colors):
-                # 创建该颜色的掩码
-                mask = (labels == i).astype(np.uint8) * 255
+            for color_info in sorted_colors:
+                rgb_color = color_info.get("rgb", [255, 255, 255])
+                target_bgr = np.array([rgb_color[2], rgb_color[1], rgb_color[0]], dtype=np.float32)
+                
+                # 转换到HSV色彩空间进行更准确的颜色匹配
+                target_hsv = cv2.cvtColor(np.uint8([[target_bgr]]), cv2.COLOR_BGR2HSV)[0][0].astype(np.float32)
+                img_hsv = cv2.cvtColor(img_cv, cv2.COLOR_BGR2HSV).astype(np.float32)
+                
+                # 计算HSV色彩空间中的距离（考虑色相的周期性）
+                h_diff = np.abs(img_hsv[:,:,0] - target_hsv[0])
+                h_diff = np.minimum(h_diff, 180 - h_diff)  # 处理色相的周期性
+                s_diff = np.abs(img_hsv[:,:,1] - target_hsv[1])
+                v_diff = np.abs(img_hsv[:,:,2] - target_hsv[2])
+                
+                # 加权HSV距离计算（色相权重更高）
+                hsv_distance = np.sqrt(
+                    (h_diff * 2.0) ** 2 +  # 色相权重加倍
+                    (s_diff * 1.0) ** 2 +  # 饱和度标准权重
+                    (v_diff * 0.5) ** 2    # 明度权重减半
+                )
+                
+                # 自适应阈值：基于目标颜色的饱和度和明度调整
+                base_threshold = 40
+                if target_hsv[1] < 50:  # 低饱和度颜色（灰色系）
+                    threshold = base_threshold * 1.5
+                elif target_hsv[2] < 50:  # 低明度颜色（暗色系）
+                    threshold = base_threshold * 1.2
+                else:
+                    threshold = base_threshold
+                
+                # 创建颜色掩码
+                mask = (hsv_distance < threshold).astype(np.uint8) * 255
+                
+                # 形态学操作优化
+                kernel_small = np.ones((3,3), np.uint8)
+                kernel_large = np.ones((7,7), np.uint8)
+                
+                # 先闭运算连接相近区域，再开运算去除噪声
+                mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel_large)
+                mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel_small)
                 
                 # 查找轮廓
                 contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 
                 if contours:
-                    # 找到最大的轮廓
-                    largest_contour = max(contours, key=cv2.contourArea)
+                    # 过滤掉太小的轮廓
+                    min_area = (width * height) * 0.001  # 至少占图像面积的0.1%
+                    valid_contours = [c for c in contours if cv2.contourArea(c) > min_area]
                     
-                    # 计算轮廓的质心
-                    M = cv2.moments(largest_contour)
-                    if M["m00"] != 0:
-                        center_x = int(M["m10"] / M["m00"])
-                        center_y = int(M["m01"] / M["m00"])
-                        color_centers.append((center_x, center_y))
+                    if valid_contours:
+                        # 找到最大的有效轮廓
+                        largest_contour = max(valid_contours, key=cv2.contourArea)
+                        
+                        # 计算轮廓的质心
+                        M = cv2.moments(largest_contour)
+                        if M["m00"] != 0:
+                            center_x = int(M["m10"] / M["m00"])
+                            center_y = int(M["m01"] / M["m00"])
+                            color_centers.append((center_x, center_y))
+                        else:
+                            # 使用轮廓边界框中心
+                            x, y, w, h = cv2.boundingRect(largest_contour)
+                            color_centers.append((x + w//2, y + h//2))
                     else:
-                        color_centers.append((width // 2, height // 2))
+                        # 使用掩码的加权中心
+                        y_coords, x_coords = np.where(mask > 0)
+                        if len(x_coords) > 0:
+                            center_x = int(np.mean(x_coords))
+                            center_y = int(np.mean(y_coords))
+                            color_centers.append((center_x, center_y))
+                        else:
+                            color_centers.append((width // 2, height // 2))
                 else:
-                    color_centers.append((width // 2, height // 2))
+                    # 如果没有找到轮廓，使用最相似像素的位置
+                    min_distance_idx = np.unravel_index(np.argmin(hsv_distance), hsv_distance.shape)
+                    color_centers.append((min_distance_idx[1], min_distance_idx[0]))
             
             # 在右侧区域绘制颜色标注
             annotation_start_x = width + 20

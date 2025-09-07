@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { IconPhoto, IconUpload, IconX, IconPalette, IconEye } from '@tabler/icons-react';
+import { IconPhoto, IconUpload, IconPalette, IconX, IconEye } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
 
 interface ColorInfo {
@@ -18,17 +18,28 @@ interface ColorAnalysisResult {
   image_dimensions: { width: number; height: number };
 }
 
-interface Props {
+interface PickedColor {
+  hex: string;
+  rgb: number[];
+  color_name: string;
+  position: { x: number; y: number };
+}
+
+interface ImageUploadProps {
   onAnalysisComplete?: (result: ColorAnalysisResult, imageUrl: string) => void;
+  onColorPicked?: (color: any) => void;
   className?: string;
 }
 
-export const ImageUpload: React.FC<Props> = ({ onAnalysisComplete, className = '' }) => {
+export const ImageUpload: React.FC<ImageUploadProps> = ({ onAnalysisComplete, onColorPicked, className = '' }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<ColorAnalysisResult | null>(null);
   const [dragActive, setDragActive] = useState(false);
+  const [isPickingColor, setIsPickingColor] = useState(false);
+  const [pickedColors, setPickedColors] = useState<PickedColor[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   const compressImage = (file: File): Promise<string> => {
     return new Promise((resolve) => {
@@ -122,40 +133,91 @@ export const ImageUpload: React.FC<Props> = ({ onAnalysisComplete, className = '
   }, []);
 
   const analyzeColors = async () => {
-    if (!selectedImage) {
-      toast.error('请先选择图片');
-      return;
-    }
-
+    if (!selectedImage) return;
+    
     setIsAnalyzing(true);
     try {
-      // Convert base64 to blob and upload to a temporary URL service
-      // For demo purposes, we'll use the image directly as base64
-      const response = await fetch('/api/color-analysis', {
+      const response = await fetch('/api/analyze-colors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          image_data: selectedImage,
-          num_colors: 5
+          image_url: selectedImage,
+          num_colors: 5,
+          min_percentage: 0.05
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('颜色分析失败');
+      const data = await response.json();
+      
+      if (data.success) {
+        setAnalysisResult(data);
+        onAnalysisComplete?.(data, selectedImage);
+        toast.success(`成功提取 ${data.total_colors_found} 种主要颜色`);
+      } else {
+        toast.error(data.error || '颜色分析失败');
       }
-
-      const result: ColorAnalysisResult = await response.json();
-      setAnalysisResult(result);
-      onAnalysisComplete?.(result, selectedImage!);
-      toast.success(`成功提取${result.total_colors_found}种主要颜色`);
     } catch (error) {
       console.error('Color analysis error:', error);
       toast.error('颜色分析失败，请重试');
     } finally {
       setIsAnalyzing(false);
     }
+  };
+
+  const handleImageClick = async (e: React.MouseEvent<HTMLImageElement>) => {
+    if (!isPickingColor || !selectedImage || !imageRef.current) return;
+
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = Math.round((e.clientX - rect.left) * (imageRef.current.naturalWidth / rect.width));
+    const y = Math.round((e.clientY - rect.top) * (imageRef.current.naturalHeight / rect.height));
+
+    try {
+      const response = await fetch('/api/pick-color', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image_url: selectedImage,
+          x: x,
+          y: y
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        const newColor: PickedColor = {
+          hex: data.color.hex,
+          rgb: data.color.rgb,
+          color_name: data.color.color_name,
+          position: { x, y }
+        };
+        
+        setPickedColors(prev => [...prev, newColor]);
+        onColorPicked?.(newColor);
+        toast.success(`取色成功: ${data.color.hex}`);
+      } else {
+        toast.error(data.error || '取色失败');
+      }
+    } catch (error) {
+      console.error('Pick color error:', error);
+      toast.error('取色请求失败');
+    }
+  };
+
+  const toggleColorPicking = () => {
+    setIsPickingColor(!isPickingColor);
+    if (!isPickingColor) {
+      toast.success('点击图片上的任意位置来取色');
+    }
+  };
+
+  const clearPickedColors = () => {
+    setPickedColors([]);
+    toast.success('已清除所有取色点');
   };
 
   const clearImage = () => {
@@ -194,9 +256,13 @@ export const ImageUpload: React.FC<Props> = ({ onAnalysisComplete, className = '
           <div className="space-y-4">
             <div className="relative inline-block">
               <img
+                ref={imageRef}
                 src={selectedImage}
                 alt="Selected"
-                className="max-w-full max-h-64 rounded-lg shadow-md"
+                className={`max-w-full max-h-64 rounded-lg shadow-md ${
+                  isPickingColor ? 'cursor-crosshair' : 'cursor-default'
+                }`}
+                onClick={handleImageClick}
               />
               <button
                 onClick={clearImage}
@@ -204,16 +270,84 @@ export const ImageUpload: React.FC<Props> = ({ onAnalysisComplete, className = '
               >
                 <IconX size={16} />
               </button>
+              
+              {/* 显示取色点 */}
+              {pickedColors.map((color, index) => (
+                <div
+                  key={index}
+                  className="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg"
+                  style={{
+                    backgroundColor: color.hex,
+                    left: `${(color.position.x / (imageRef.current?.naturalWidth || 1)) * 100}%`,
+                    top: `${(color.position.y / (imageRef.current?.naturalHeight || 1)) * 100}%`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                />
+              ))}
             </div>
             
-            <button
-              onClick={analyzeColors}
-              disabled={isAnalyzing}
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <IconPalette className="mr-2" size={20} />
-              {isAnalyzing ? '分析中...' : '分析颜色'}
-            </button>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                onClick={analyzeColors}
+                disabled={isAnalyzing}
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <IconPalette className="mr-2" size={20} />
+                {isAnalyzing ? '分析中...' : '分析颜色'}
+              </button>
+              
+              <button
+                onClick={toggleColorPicking}
+                className={`inline-flex items-center px-4 py-2 rounded-lg transition-colors ${
+                  isPickingColor
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                }`}
+              >
+                <IconEye className="mr-2" size={16} />
+                {isPickingColor ? '取色模式 (开启)' : '点击取色'}
+              </button>
+              
+              {pickedColors.length > 0 && (
+                <button
+                  onClick={clearPickedColors}
+                  className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
+                >
+                  <IconX className="mr-2" size={16} />
+                  清除取色点
+                </button>
+              )}
+            </div>
+            
+            {/* 显示取色结果 */}
+            {pickedColors.length > 0 && (
+              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+                  取色结果 ({pickedColors.length})
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {pickedColors.map((color, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center space-x-2 p-2 bg-white dark:bg-gray-800 rounded"
+                    >
+                      <div
+                        className="w-6 h-6 rounded border border-gray-200 dark:border-gray-600"
+                        style={{ backgroundColor: color.hex }}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-mono text-gray-900 dark:text-gray-100">
+                          {color.hex}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {color.color_name}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="space-y-4">

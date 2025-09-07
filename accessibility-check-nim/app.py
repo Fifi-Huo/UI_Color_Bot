@@ -232,28 +232,30 @@ class AccessibilityChecker:
     
     def generate_recommendations(self, contrast_ratio: float, wcag_level: WCAGLevel, 
                                text_size: TextSize, passes_wcag: bool) -> List[str]:
-        """Generate accessibility recommendations"""
+        """Generate accessibility recommendations in Chinese"""
         recommendations = []
         
         required_ratio = self.wcag_requirements[wcag_level][text_size.value]
+        text_size_cn = "普通" if text_size == TextSize.NORMAL else "大"
+        wcag_level_cn = "AA" if wcag_level == WCAGLevel.AA else "AAA"
         
         if not passes_wcag:
-            recommendations.append(f"Current contrast ratio {contrast_ratio:.2f} does not meet {wcag_level} {text_size} text requirements ({required_ratio})")
+            recommendations.append(f"当前对比度 {contrast_ratio:.2f} 不符合 WCAG {wcag_level_cn} {text_size_cn}文字要求 (需要 {required_ratio})")
             
             if contrast_ratio < 3.0:
-                recommendations.append("Consider using completely different colors with higher contrast")
+                recommendations.append("建议使用对比度更高的完全不同颜色")
             elif contrast_ratio < 4.5:
-                recommendations.append("Try darkening the text color or lightening the background")
+                recommendations.append("尝试加深文字颜色或减淡背景颜色")
             
-            recommendations.append("Test with actual users who have visual impairments")
+            recommendations.append("建议与有视觉障碍的实际用户进行测试")
         else:
-            recommendations.append(f"✅ Meets {wcag_level} requirements for {text_size} text")
+            recommendations.append(f"✅ 符合 WCAG {wcag_level_cn} {text_size_cn}文字要求")
             
             if wcag_level == WCAGLevel.AA and contrast_ratio >= 7.0:
-                recommendations.append("✅ Also meets AAA requirements - excellent accessibility!")
+                recommendations.append("✅ 同时符合 AAA 要求 - 优秀的可访问性！")
         
-        recommendations.append("Always test colors in different lighting conditions")
-        recommendations.append("Consider providing high contrast mode option")
+        recommendations.append("建议在不同光照条件下测试颜色")
+        recommendations.append("考虑提供高对比度模式选项")
         
         return recommendations
     

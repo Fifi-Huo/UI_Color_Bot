@@ -321,36 +321,50 @@ class PaletteGenerator:
         return colors
     
     def get_usage_suggestions(self, palette_type: PaletteType, colors: List[Tuple[int, int, int]]) -> List[str]:
-        """Get usage suggestions for the palette"""
+        """Get usage suggestions for the palette in Chinese"""
         suggestions = []
         
         if palette_type == PaletteType.MONOCHROMATIC:
             suggestions = [
-                "Use lightest color for backgrounds",
-                "Medium tones for secondary elements",
-                "Darkest color for text and emphasis",
-                "Great for minimalist designs"
+                "使用最浅的颜色作为背景",
+                "中等色调用于次要元素",
+                "最深的颜色用于文字和强调",
+                "适合极简主义设计"
             ]
         elif palette_type == PaletteType.COMPLEMENTARY:
             suggestions = [
-                "Use one color as dominant (60%)",
-                "Complementary color for accents (10%)",
-                "Neutral variations for balance (30%)",
-                "High contrast for call-to-action elements"
+                "使用一种颜色作为主色调 (60%)",
+                "互补色用于强调元素 (10%)",
+                "中性变化用于平衡 (30%)",
+                "高对比度适合行动号召元素"
             ]
         elif palette_type == PaletteType.TRIADIC:
             suggestions = [
-                "Choose one color as primary",
-                "Use other two as accents sparingly",
-                "Balance with neutral tones",
-                "Great for vibrant, energetic designs"
+                "选择一种颜色作为主色",
+                "其他两种颜色谨慎用作强调色",
+                "用中性色调平衡",
+                "适合充满活力的设计"
             ]
         elif palette_type == PaletteType.ANALOGOUS:
             suggestions = [
-                "Creates harmonious, peaceful feeling",
-                "Use for gradients and transitions",
-                "One color should dominate",
-                "Perfect for nature-inspired themes"
+                "创造和谐、平静的感觉",
+                "用于渐变和过渡效果",
+                "一种颜色应占主导地位",
+                "完美适合自然主题设计"
+            ]
+        elif palette_type == PaletteType.TETRADIC:
+            suggestions = [
+                "选择一种主色调",
+                "其他三种颜色用作强调",
+                "保持色彩平衡很重要",
+                "适合丰富多彩的设计"
+            ]
+        elif palette_type == PaletteType.SPLIT_COMPLEMENTARY:
+            suggestions = [
+                "基础色作为主色调",
+                "分裂互补色用于强调",
+                "比纯互补色更柔和",
+                "适合需要对比但不过于强烈的设计"
             ]
         
         return suggestions
