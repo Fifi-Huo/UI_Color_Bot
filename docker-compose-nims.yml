@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  # Color Extraction NIM (GPU-accelerated)
+  color-extraction-nim:
+    build:
+      context: ./color-extraction-nim
+      dockerfile: Dockerfile
+    container_name: color-extraction-nim
+    ports:
+      - "8080:8080"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTHONUNBUFFERED=1
+      - PORT=8080
+    volumes:
+      - ./logs/color-extraction:/app/logs
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - nim-network
+
+  # Palette Generation NIM
+  palette-generation-nim:
+    build:
+      context: ./palette-generation-nim
+      dockerfile: Dockerfile
+    container_name: palette-generation-nim
+    ports:
+      - "8081:8081"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8081
+    volumes:
+      - ./logs/palette-generation:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - nim-network
+
+  # Accessibility Check NIM
+  accessibility-check-nim:
+    build:
+      context: ./accessibility-check-nim
+      dockerfile: Dockerfile
+    container_name: accessibility-check-nim
+    ports:
+      - "8082:8082"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8082
+    volumes:
+      - ./logs/accessibility-check:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - nim-network
+
+  # NGINX Load Balancer / API Gateway
+  nginx-gateway:
+    image: nginx:alpine
+    container_name: nim-gateway
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - color-extraction-nim
+      - palette-generation-nim
+      - accessibility-check-nim
+    restart: unless-stopped
+    networks:
+      - nim-network
+
+volumes:
+  logs:
+
+networks:
+  nim-network:
+    driver: bridge

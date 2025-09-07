@@ -1,0 +1,4269 @@
+{
+  "nim_health": {
+    "status": "success",
+    "data": {
+      "success": true,
+      "nims_status": {
+        "color_extraction": {
+          "status": "healthy",
+          "data": {
+            "status": "healthy",
+            "version": "1.0.0",
+            "gpu_available": false,
+            "cuml_available": false
+          }
+        },
+        "palette_generation": {
+          "status": "healthy",
+          "data": {
+            "status": "healthy",
+            "version": "1.0.0",
+            "supported_palettes": [
+              "monochromatic",
+              "analogous",
+              "complementary",
+              "triadic",
+              "tetradic",
+              "split_complementary",
+              "compound"
+            ]
+          }
+        },
+        "accessibility_check": {
+          "status": "healthy",
+          "data": {
+            "status": "healthy",
+            "version": "1.0.0",
+            "wcag_levels": [
+              "AA",
+              "AAA"
+            ],
+            "colorblindness_types": [
+              "protanopia",
+              "deuteranopia",
+              "tritanopia",
+              "achromatopsia"
+            ]
+          }
+        }
+      },
+      "timestamp": "2025-01-07T13:34:35+08:00"
+    }
+  },
+  "image_extraction": {
+    "status": "success",
+    "data": {
+      "success": true,
+      "colors": [
+        {
+          "hex_code": "#686f8b",
+          "rgb": [
+            104,
+            111,
+            139
+          ],
+          "percentage": 0.23976313320825515,
+          "color_name": "Blue-ish"
+        },
+        {
+          "hex_code": "#3e4863",
+          "rgb": [
+            62,
+            72,
+            99
+          ],
+          "percentage": 0.22440196998123826,
+          "color_name": "Blue-ish"
+        },
+        {
+          "hex_code": "#1c212e",
+          "rgb": [
+            28,
+            33,
+            46
+          ],
+          "percentage": 0.2227110694183865,
+          "color_name": "Dark"
+        },
+        {
+          "hex_code": "#9494ab",
+          "rgb": [
+            148,
+            148,
+            171
+          ],
+          "percentage": 0.18825281425891183,
+          "color_name": "Blue-ish"
+        },
+        {
+          "hex_code": "#dab7ae",
+          "rgb": [
+            218,
+            183,
+            174
+          ],
+          "percentage": 0.12487101313320825,
+          "color_name": "Red-ish"
+        }
+      ],
+      "total_colors_found": 5,
+      "processing_time_ms": 774.7340202331543,
+      "algorithm_used": "sklearn K-Means",
+      "image_dimensions": {
+        "width": 800,
+        "height": 533
+      }
+    }
+  },
+  "comprehensive_analysis": {
+    "status": "success",
+    "data": {
+      "success": true,
+      "base_color": "#3498DB",
+      "palettes": {
+        "monochromatic": {
+          "success": true,
+          "palette_type": "monochromatic",
+          "base_color": "#3498DB",
+          "colors": [
+            {
+              "hex_code": "#232c33",
+              "rgb": [
+                35,
+                44,
+                51
+              ],
+              "hsv": [
+                0.5729166666666666,
+                0.3137254901960784,
+                0.2
+              ],
+              "hsl": [
+                0.5729166666666666,
+                0.16862745098039217,
+                0.18604651162790697
+              ],
+              "color_name": "Cyan",
+              "role": "primary"
+            },
+            {
+              "hex_code": "#314959",
+              "rgb": [
+                49,
+                73,
+                89
+              ],
+              "hsv": [
+                0.5666666666666668,
+                0.44943820224719094,
+                0.34901960784313724
+              ],
+              "hsl": [
+                0.5666666666666668,
+                0.27058823529411763,
+                0.28985507246376807
+              ],
+              "color_name": "Cyan",
+              "role": "secondary"
+            },
+            {
+              "hex_code": "#32607f",
+              "rgb": [
+                50,
+                96,
+                127
+              ],
+              "hsv": [
+                0.5670995670995671,
+                0.6062992125984252,
+                0.4980392156862745
+              ],
+              "hsl": [
+                0.5670995670995671,
+                0.34705882352941175,
+                0.43502824858757067
+              ],
+              "color_name": "Cyan",
+              "role": "accent"
+            },
+            {
+              "hex_code": "#2973a5",
+              "rgb": [
+                41,
+                115,
+                165
+              ],
+              "hsv": [
+                0.5672043010752689,
+                0.7515151515151516,
+                0.6470588235294118
+              ],
+              "hsl": [
+                0.5672043010752689,
+                0.403921568627451,
+                0.6019417475728156
+              ],
+              "color_name": "Cyan",
+              "role": "highlight"
+            },
+            {
+              "hex_code": "#1482cc",
+              "rgb": [
+                20,
+                130,
+                204
+              ],
+              "hsv": [
+                0.5670289855072465,
+                0.9019607843137256,
+                0.8
+              ],
+              "hsl": [
+                0.5670289855072465,
+                0.4392156862745098,
+                0.8214285714285715
+              ],
+              "color_name": "Cyan",
+              "role": "neutral"
+            }
+          ],
+          "total_colors": 5,
+          "processing_time_ms": 0.049114227294921875,
+          "harmony_score": 0.007682009435164838,
+          "usage_suggestions": [
+            "Use lightest color for backgrounds",
+            "Medium tones for secondary elements",
+            "Darkest color for text and emphasis",
+            "Great for minimalist designs"
+          ]
+        },
+        "complementary": {
+          "success": true,
+          "palette_type": "complementary",
+          "base_color": "#3498DB",
+          "colors": [
+            {
+              "hex_code": "#3498db",
+              "rgb": [
+                52,
+                152,
+                219
+              ],
+              "hsv": [
+                0.5668662674650699,
+                0.7625570776255707,
+                0.8588235294117647
+              ],
+              "hsl": [
+                0.5668662674650699,
+                0.5313725490196078,
+                0.6987447698744769
+              ],
+              "color_name": "Cyan",
+              "role": "primary"
+            },
+            {
+              "hex_code": "#db7634",
+              "rgb": [
+                219,
+                118,
+                52
+              ],
+              "hsv": [
+                0.0658682634730539,
+                0.7625570776255707,
+                0.8588235294117647
+              ],
+              "hsl": [
+                0.0658682634730539,
+                0.5313725490196078,
+                0.6987447698744769
+              ],
+              "color_name": "Orange",
+              "role": "secondary"
+            },
+            {
+              "hex_code": "#355368",
+              "rgb": [
+                53,
+                83,
+                104
+              ],
+              "hsv": [
+                0.5686274509803922,
+                0.49038461538461536,
+                0.40784313725490196
+              ],
+              "hsl": [
+                0.5686274509803922,
+                0.307843137254902,
+                0.3248407643312101
+              ],
+              "color_name": "Cyan",
+              "role": "accent"
+            },
+            {
+              "hex_code": "#593e2b",
+              "rgb": [
+                89,
+                62,
+                43
+              ],
+              "hsv": [
+                0.06884057971014491,
+                0.5168539325842696,
+                0.34901960784313724
+              ],
+              "hsl": [
+                0.06884057971014491,
+                0.2588235294117647,
+                0.34848484848484845
+              ],
+              "color_name": "Orange",
+              "role": "highlight"
+            },
+            {
+              "hex_code": "#6da1c3",
+              "rgb": [
+                109,
+                161,
+                195
+              ],
+              "hsv": [
+                0.5658914728682171,
+                0.441025641025641,
+                0.7647058823529411
+              ],
+              "hsl": [
+                0.5658914728682171,
+                0.596078431372549,
+                0.41747572815533973
+              ],
+              "color_name": "Cyan",
+              "role": "neutral"
+            }
+          ],
+          "total_colors": 5,
+          "processing_time_ms": 0.051975250244140625,
+          "harmony_score": 0.9089476738636872,
+          "usage_suggestions": [
+            "Use one color as dominant (60%)",
+            "Complementary color for accents (10%)",
+            "Neutral variations for balance (30%)",
+            "High contrast for call-to-action elements"
+          ]
+        },
+        "triadic": {
+          "success": true,
+          "palette_type": "triadic",
+          "base_color": "#3498DB",
+          "colors": [
+            {
+              "hex_code": "#3498db",
+              "rgb": [
+                52,
+                152,
+                219
+              ],
+              "hsv": [
+                0.5668662674650699,
+                0.7625570776255707,
+                0.8588235294117647
+              ],
+              "hsl": [
+                0.5668662674650699,
+                0.5313725490196078,
+                0.6987447698744769
+              ],
+              "color_name": "Cyan",
+              "role": "primary"
+            },
+            {
+              "hex_code": "#db3497",
+              "rgb": [
+                219,
+                52,
+                151
+              ],
+              "hsv": [
+                0.9011976047904191,
+                0.7625570776255707,
+                0.8588235294117647
+              ],
+              "hsl": [
+                0.9011976047904191,
+                0.5313725490196078,
+                0.6987447698744769
+              ],
+              "color_name": "Purple",
+              "role": "secondary"
+            },
+            {
+              "hex_code": "#98db34",
+              "rgb": [
+                152,
+                219,
+                52
+              ],
+              "hsv": [
+                0.23353293413173656,
+                0.7625570776255707,
+                0.8588235294117647
+              ],
+              "hsl": [
+                0.23353293413173656,
+                0.5313725490196078,
+                0.6987447698744769
+              ],
+              "color_name": "Green",
+              "role": "accent"
+            },
+            {
+              "hex_code": "#5289ad",
+              "rgb": [
+                82,
+                137,
+                173
+              ],
+              "hsv": [
+                0.565934065934066,
+                0.5260115606936416,
+                0.6784313725490196
+              ],
+              "hsl": [
+                0.565934065934066,
+                0.5,
+                0.3568627450980392
+              ],
+              "color_name": "Cyan",
+              "role": "highlight"
+            },
+            {
+              "hex_code": "#6f4960",
+              "rgb": [
+                111,
+                73,
+                96
+              ],
+              "hsv": [
+                0.8991228070175439,
+                0.3423423423423424,
+                0.43529411764705883
+              ],
+              "hsl": [
+                0.8991228070175439,
+                0.3607843137254902,
+                0.2065217391304348
+              ],
+              "color_name": "Purple",
+              "role": "neutral"
+            }
+          ],
+          "total_colors": 5,
+          "processing_time_ms": 0.048160552978515625,
+          "harmony_score": 0.809250629609911,
+          "usage_suggestions": [
+            "Choose one color as primary",
+            "Use other two as accents sparingly",
+            "Balance with neutral tones",
+            "Great for vibrant, energetic designs"
+          ]
+        },
+        "analogous": {
+          "success": true,
+          "palette_type": "analogous",
+          "base_color": "#3498DB",
+          "colors": [
+            {
+              "hex_code": "#198484",
+              "rgb": [
+                25,
+                132,
+                132
+              ],
+              "hsv": [
+                0.5,
+                0.8106060606060607,
+                0.5176470588235295
+              ],
+              "hsl": [
+                0.5,
+                0.307843137254902,
+                0.6815286624203822
+              ],
+              "color_name": "Cyan",
+              "role": "primary"
+            },
+            {
+              "hex_code": "#1498b9",
+              "rgb": [
+                20,
+                152,
+                185
+              ],
+              "hsv": [
+                0.5333333333333333,
+                0.8918918918918918,
+                0.7254901960784313
+              ],
+              "hsl": [
+                0.5333333333333333,
+                0.4019607843137255,
+                0.8048780487804876
+              ],
+              "color_name": "Cyan",
+              "role": "secondary"
+            },
+            {
+              "hex_code": "#0c4c77",
+              "rgb": [
+                12,
+                76,
+                119
+              ],
+              "hsv": [
+                0.5669781931464174,
+                0.8991596638655462,
+                0.4666666666666667
+              ],
+              "hsl": [
+                0.5669781931464174,
+                0.2568627450980392,
+                0.8167938931297711
+              ],
+              "color_name": "Cyan",
+              "role": "accent"
+            },
+            {
+              "hex_code": "#102545",
+              "rgb": [
+                16,
+                37,
+                69
+              ],
+              "hsv": [
+                0.60062893081761,
+                0.7681159420289855,
+                0.27058823529411763
+              ],
+              "hsl": [
+                0.60062893081761,
+                0.16666666666666666,
+                0.6235294117647059
+              ],
+              "color_name": "Blue",
+              "role": "highlight"
+            },
+            {
+              "hex_code": "#1539c7",
+              "rgb": [
+                21,
+                57,
+                199
+              ],
+              "hsv": [
+                0.6329588014981273,
+                0.8944723618090452,
+                0.7803921568627451
+              ],
+              "hsl": [
+                0.6329588014981273,
+                0.43137254901960786,
+                0.809090909090909
+              ],
+              "color_name": "Blue",
+              "role": "neutral"
+            }
+          ],
+          "total_colors": 5,
+          "processing_time_ms": 0.053882598876953125,
+          "harmony_score": 0.20194739423062502,
+          "usage_suggestions": [
+            "Creates harmonious, peaceful feeling",
+            "Use for gradients and transitions",
+            "One color should dominate",
+            "Perfect for nature-inspired themes"
+          ]
+        }
+      },
+      "accessibility_analysis": {
+        "success": true,
+        "total_combinations": 380,
+        "accessible_combinations": 30,
+        "accessibility_score": 0.07894736842105263,
+        "color_pairs": [
+          {
+            "foreground": "#232c33",
+            "background": "#32607f",
+            "contrast_ratio": 2.1055390824099685,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#198484",
+            "contrast_ratio": 3.159783089788608,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#6da1c3",
+            "contrast_ratio": 5.093617108778747,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#db7634",
+            "contrast_ratio": 4.496646909979484,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#355368",
+            "contrast_ratio": 1.7495794328564838,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#593e2b",
+            "contrast_ratio": 1.4522765265975939,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.5652089538076086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#2973a5",
+            "contrast_ratio": 2.764302668447344,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#db3497",
+            "contrast_ratio": 3.345688462656755,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#1482cc",
+            "contrast_ratio": 3.4434487257109843,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#3498db",
+            "contrast_ratio": 4.501532339680451,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#1498b9",
+            "contrast_ratio": 4.205084683254509,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#98db34",
+            "contrast_ratio": 8.46024079694994,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#3498DB",
+            "contrast_ratio": 4.501532339680451,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#314959",
+            "contrast_ratio": 1.5057809314531008,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#5289ad",
+            "contrast_ratio": 3.7447137194865374,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#6f4960",
+            "contrast_ratio": 1.8910083472102075,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#102545",
+            "contrast_ratio": 1.077916676416662,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#232c33",
+            "background": "#1539c7",
+            "contrast_ratio": 1.6504043988618076,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#232c33",
+            "contrast_ratio": 2.1055390824099685,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#198484",
+            "contrast_ratio": 1.5007002796509328,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#6da1c3",
+            "contrast_ratio": 2.4191510627048864,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#db7634",
+            "contrast_ratio": 2.135627378064476,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#355368",
+            "contrast_ratio": 1.2034544090246424,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#593e2b",
+            "contrast_ratio": 1.449819675418733,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.3452127764078559,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#2973a5",
+            "contrast_ratio": 1.3128716971063603,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#db3497",
+            "contrast_ratio": 1.5889937596538604,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#1482cc",
+            "contrast_ratio": 1.635423799291184,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#3498db",
+            "contrast_ratio": 2.137947653067577,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#1498b9",
+            "contrast_ratio": 1.9971534693345292,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#98db34",
+            "contrast_ratio": 4.018087751316625,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#3498DB",
+            "contrast_ratio": 2.137947653067577,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#314959",
+            "contrast_ratio": 1.3983037229579554,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#5289ad",
+            "contrast_ratio": 1.7785059183990042,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#6f4960",
+            "contrast_ratio": 1.1134477991682357,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#102545",
+            "contrast_ratio": 2.269595689776741,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#32607f",
+            "background": "#1539c7",
+            "contrast_ratio": 1.2757716132252446,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#232c33",
+            "contrast_ratio": 3.159783089788608,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#32607f",
+            "contrast_ratio": 1.5007002796509328,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.6120148010284825,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#db7634",
+            "contrast_ratio": 1.4230872126986138,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#355368",
+            "contrast_ratio": 1.8060243681704289,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#593e2b",
+            "contrast_ratio": 2.175744792344317,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.018761189745277,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#2973a5",
+            "contrast_ratio": 1.1430669752105684,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#db3497",
+            "contrast_ratio": 1.058834852768512,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#1482cc",
+            "contrast_ratio": 1.089773768597943,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#3498db",
+            "contrast_ratio": 1.4246333408859426,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#1498b9",
+            "contrast_ratio": 1.3308143514167086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#98db34",
+            "contrast_ratio": 2.6774751799548167,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#3498DB",
+            "contrast_ratio": 1.4246333408859426,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#314959",
+            "contrast_ratio": 2.098434788079944,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#5289ad",
+            "contrast_ratio": 1.1851173365628276,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#6f4960",
+            "contrast_ratio": 1.670951423588487,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#102545",
+            "contrast_ratio": 3.4059828863425072,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#198484",
+            "background": "#1539c7",
+            "contrast_ratio": 1.9145508167378464,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#232c33",
+            "contrast_ratio": 5.093617108778747,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#32607f",
+            "contrast_ratio": 2.4191510627048864,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#198484",
+            "contrast_ratio": 1.6120148010284825,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#db7634",
+            "contrast_ratio": 1.1327589670148208,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#355368",
+            "contrast_ratio": 2.9113380125088444,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#593e2b",
+            "contrast_ratio": 3.5073328085196818,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#0c4c77",
+            "contrast_ratio": 3.2542729176112553,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#2973a5",
+            "contrast_ratio": 1.8426408826062937,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#db3497",
+            "contrast_ratio": 1.5224421417689293,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#1482cc",
+            "contrast_ratio": 1.4792196761190468,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#3498db",
+            "contrast_ratio": 1.1315296046813086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#1498b9",
+            "contrast_ratio": 1.2112995319838744,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#98db34",
+            "contrast_ratio": 1.6609495013610043,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#3498DB",
+            "contrast_ratio": 1.1315296046813086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#314959",
+            "contrast_ratio": 3.3827079373779365,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#5289ad",
+            "contrast_ratio": 1.3602153569905382,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#6f4960",
+            "contrast_ratio": 2.6935984266242543,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#102545",
+            "contrast_ratio": 5.490494824833833,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#6da1c3",
+            "background": "#1539c7",
+            "contrast_ratio": 3.086284253902578,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#232c33",
+            "contrast_ratio": 4.496646909979484,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#32607f",
+            "contrast_ratio": 2.135627378064476,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#198484",
+            "contrast_ratio": 1.4230872126986138,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.1327589670148208,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#355368",
+            "contrast_ratio": 2.5701301841654307,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#593e2b",
+            "contrast_ratio": 3.096274592080799,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.8728732346187438,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#2973a5",
+            "contrast_ratio": 1.6266839956802432,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#db3497",
+            "contrast_ratio": 1.3440124387459471,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#1482cc",
+            "contrast_ratio": 1.3058556314210956,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#3498db",
+            "contrast_ratio": 1.0010864606002585,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#1498b9",
+            "contrast_ratio": 1.069335637373971,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#98db34",
+            "contrast_ratio": 1.881455441425473,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#3498DB",
+            "contrast_ratio": 1.0010864606002585,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#314959",
+            "contrast_ratio": 2.986255713598494,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#5289ad",
+            "contrast_ratio": 1.200798578161016,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#6f4960",
+            "contrast_ratio": 2.3779096039493206,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#102545",
+            "contrast_ratio": 4.847010692224338,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#db7634",
+            "background": "#1539c7",
+            "contrast_ratio": 2.7245727853613166,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#232c33",
+            "contrast_ratio": 1.7495794328564838,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#32607f",
+            "contrast_ratio": 1.2034544090246424,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#198484",
+            "contrast_ratio": 1.8060243681704289,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#6da1c3",
+            "contrast_ratio": 2.9113380125088444,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#db7634",
+            "contrast_ratio": 2.5701301841654307,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#593e2b",
+            "contrast_ratio": 1.2047150806433633,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.117792885480476,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#2973a5",
+            "contrast_ratio": 1.5799812323663143,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#db3497",
+            "contrast_ratio": 1.912281545968081,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#1482cc",
+            "contrast_ratio": 1.9681579818808073,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#3498db",
+            "contrast_ratio": 2.5729225293480615,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#1498b9",
+            "contrast_ratio": 2.4034831481695,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#98db34",
+            "contrast_ratio": 4.8355854201699024,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#3498DB",
+            "contrast_ratio": 2.5729225293480615,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#314959",
+            "contrast_ratio": 1.1619083468988505,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#5289ad",
+            "contrast_ratio": 2.140350788973702,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#6f4960",
+            "contrast_ratio": 1.0808359493131543,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#102545",
+            "contrast_ratio": 1.885900847391609,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#355368",
+            "background": "#1539c7",
+            "contrast_ratio": 1.0600913534059118,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#232c33",
+            "contrast_ratio": 1.4522765265975939,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#32607f",
+            "contrast_ratio": 1.449819675418733,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#198484",
+            "contrast_ratio": 2.175744792344317,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#6da1c3",
+            "contrast_ratio": 3.5073328085196818,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#db7634",
+            "contrast_ratio": 3.096274592080799,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#355368",
+            "contrast_ratio": 1.2047150806433633,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.0777623442517479,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#2973a5",
+            "contrast_ratio": 1.9034272177651845,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#db3497",
+            "contrast_ratio": 2.303754416863752,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#1482cc",
+            "contrast_ratio": 2.3710696018604156,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#3498db",
+            "contrast_ratio": 3.099638572432676,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#1498b9",
+            "contrast_ratio": 2.8955123946719836,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#98db34",
+            "contrast_ratio": 5.825502679417856,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#3498DB",
+            "contrast_ratio": 3.099638572432676,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#314959",
+            "contrast_ratio": 1.0368417473364095,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#5289ad",
+            "contrast_ratio": 2.57851287334354,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#6f4960",
+            "contrast_ratio": 1.3020993678390427,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#102545",
+            "contrast_ratio": 1.565433086788012,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#593e2b",
+            "background": "#1539c7",
+            "contrast_ratio": 1.13642572102187,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#232c33",
+            "contrast_ratio": 1.5652089538076086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#32607f",
+            "contrast_ratio": 1.3452127764078559,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#198484",
+            "contrast_ratio": 2.018761189745277,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#6da1c3",
+            "contrast_ratio": 3.2542729176112553,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#db7634",
+            "contrast_ratio": 2.8728732346187438,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#355368",
+            "contrast_ratio": 1.117792885480476,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#593e2b",
+            "contrast_ratio": 1.0777623442517479,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#2973a5",
+            "contrast_ratio": 1.7660917807317407,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#db3497",
+            "contrast_ratio": 2.1375347071187267,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#1482cc",
+            "contrast_ratio": 2.1999929896479777,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#3498db",
+            "contrast_ratio": 2.875994498197694,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#1498b9",
+            "contrast_ratio": 2.6865963633960837,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#98db34",
+            "contrast_ratio": 5.405182979799035,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#3498DB",
+            "contrast_ratio": 2.875994498197694,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#314959",
+            "contrast_ratio": 1.0394665791770645,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#5289ad",
+            "contrast_ratio": 2.392468884347328,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#6f4960",
+            "contrast_ratio": 1.20815073451378,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#102545",
+            "contrast_ratio": 1.6871648333858977,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#0c4c77",
+            "background": "#1539c7",
+            "contrast_ratio": 1.0544307166445401,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#232c33",
+            "contrast_ratio": 2.764302668447344,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#32607f",
+            "contrast_ratio": 1.3128716971063603,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#198484",
+            "contrast_ratio": 1.1430669752105684,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.8426408826062937,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#db7634",
+            "contrast_ratio": 1.6266839956802432,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#355368",
+            "contrast_ratio": 1.5799812323663143,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#593e2b",
+            "contrast_ratio": 1.9034272177651845,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.7660917807317407,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#db3497",
+            "contrast_ratio": 1.2103191524016306,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#1482cc",
+            "contrast_ratio": 1.2456844053350726,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#3498db",
+            "contrast_ratio": 1.6284513237506208,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#1498b9",
+            "contrast_ratio": 1.5212099352407114,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#98db34",
+            "contrast_ratio": 3.0605334551523242,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#3498DB",
+            "contrast_ratio": 1.6284513237506208,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#314959",
+            "contrast_ratio": 1.8357933818299528,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#5289ad",
+            "contrast_ratio": 1.3546684891744765,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#6f4960",
+            "contrast_ratio": 1.4618141017333435,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#102545",
+            "contrast_ratio": 2.9796879449824707,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#2973a5",
+            "background": "#1539c7",
+            "contrast_ratio": 1.6749244429751462,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#232c33",
+            "contrast_ratio": 3.345688462656755,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#32607f",
+            "contrast_ratio": 1.5889937596538604,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#198484",
+            "contrast_ratio": 1.058834852768512,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.5224421417689293,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#db7634",
+            "contrast_ratio": 1.3440124387459471,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#355368",
+            "contrast_ratio": 1.912281545968081,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#593e2b",
+            "contrast_ratio": 2.303754416863752,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.1375347071187267,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#2973a5",
+            "contrast_ratio": 1.2103191524016306,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#1482cc",
+            "contrast_ratio": 1.0292197746877483,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#3498db",
+            "contrast_ratio": 1.345472655306902,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#1498b9",
+            "contrast_ratio": 1.256866779495459,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#98db34",
+            "contrast_ratio": 2.5286995162220824,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#3498DB",
+            "contrast_ratio": 1.345472655306902,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#314959",
+            "contrast_ratio": 2.2218958898809515,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#5289ad",
+            "contrast_ratio": 1.1192655147912138,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#6f4960",
+            "contrast_ratio": 1.7692616045786513,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#102545",
+            "contrast_ratio": 3.6063733879925404,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#db3497",
+            "background": "#1539c7",
+            "contrast_ratio": 2.027193132158452,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#232c33",
+            "contrast_ratio": 3.4434487257109843,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#32607f",
+            "contrast_ratio": 1.635423799291184,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#198484",
+            "contrast_ratio": 1.089773768597943,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.4792196761190468,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#db7634",
+            "contrast_ratio": 1.3058556314210956,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#355368",
+            "contrast_ratio": 1.9681579818808073,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#593e2b",
+            "contrast_ratio": 2.3710696018604156,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.1999929896479777,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#2973a5",
+            "contrast_ratio": 1.2456844053350726,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#db3497",
+            "contrast_ratio": 1.0292197746877483,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#3498db",
+            "contrast_ratio": 1.3072743921142602,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#1498b9",
+            "contrast_ratio": 1.2211840565119108,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#98db34",
+            "contrast_ratio": 2.4569091834533174,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#3498DB",
+            "contrast_ratio": 1.3072743921142602,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#314959",
+            "contrast_ratio": 2.2868191871629064,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#5289ad",
+            "contrast_ratio": 1.0874893218319521,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#6f4960",
+            "contrast_ratio": 1.8209590300281233,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#102545",
+            "contrast_ratio": 3.711750805829573,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#1482cc",
+            "background": "#1539c7",
+            "contrast_ratio": 2.0864272587286727,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#232c33",
+            "contrast_ratio": 4.501532339680451,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#32607f",
+            "contrast_ratio": 2.137947653067577,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#198484",
+            "contrast_ratio": 1.4246333408859426,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.1315296046813086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#db7634",
+            "contrast_ratio": 1.0010864606002585,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#355368",
+            "contrast_ratio": 2.5729225293480615,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#593e2b",
+            "contrast_ratio": 3.099638572432676,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.875994498197694,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#2973a5",
+            "contrast_ratio": 1.6284513237506208,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#db3497",
+            "contrast_ratio": 1.345472655306902,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#1482cc",
+            "contrast_ratio": 1.3072743921142602,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#1498b9",
+            "contrast_ratio": 1.0704974284124302,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#98db34",
+            "contrast_ratio": 1.8794135326706338,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#3498DB",
+            "contrast_ratio": 1.0,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#314959",
+            "contrast_ratio": 2.9895001627736155,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#5289ad",
+            "contrast_ratio": 1.2021031985050346,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#6f4960",
+            "contrast_ratio": 2.380493109044988,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#102545",
+            "contrast_ratio": 4.852276778370471,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#3498db",
+            "background": "#1539c7",
+            "contrast_ratio": 2.727532926345148,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#232c33",
+            "contrast_ratio": 4.205084683254509,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#32607f",
+            "contrast_ratio": 1.9971534693345292,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#198484",
+            "contrast_ratio": 1.3308143514167086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.2112995319838744,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#db7634",
+            "contrast_ratio": 1.069335637373971,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#355368",
+            "contrast_ratio": 2.4034831481695,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#593e2b",
+            "contrast_ratio": 2.8955123946719836,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.6865963633960837,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#2973a5",
+            "contrast_ratio": 1.5212099352407114,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#db3497",
+            "contrast_ratio": 1.256866779495459,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#1482cc",
+            "contrast_ratio": 1.2211840565119108,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#3498db",
+            "contrast_ratio": 1.0704974284124302,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#98db34",
+            "contrast_ratio": 2.0119073536474343,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#3498DB",
+            "contrast_ratio": 1.0704974284124302,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#314959",
+            "contrast_ratio": 2.7926271314888687,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#5289ad",
+            "contrast_ratio": 1.1229388941996603,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#6f4960",
+            "contrast_ratio": 2.223726135031738,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#102545",
+            "contrast_ratio": 4.532730905824312,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#1498b9",
+            "background": "#1539c7",
+            "contrast_ratio": 2.5479117034313066,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#232c33",
+            "contrast_ratio": 8.46024079694994,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#32607f",
+            "contrast_ratio": 4.018087751316625,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#198484",
+            "contrast_ratio": 2.6774751799548167,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.6609495013610043,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#db7634",
+            "contrast_ratio": 1.881455441425473,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#355368",
+            "contrast_ratio": 4.8355854201699024,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#593e2b",
+            "contrast_ratio": 5.825502679417856,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#0c4c77",
+            "contrast_ratio": 5.405182979799035,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#2973a5",
+            "contrast_ratio": 3.0605334551523242,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#db3497",
+            "contrast_ratio": 2.5286995162220824,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#1482cc",
+            "contrast_ratio": 2.4569091834533174,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#3498db",
+            "contrast_ratio": 1.8794135326706338,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#1498b9",
+            "contrast_ratio": 2.0119073536474343,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#3498DB",
+            "contrast_ratio": 1.8794135326706338,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#314959",
+            "contrast_ratio": 5.6185070618377955,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#5289ad",
+            "contrast_ratio": 2.2592490189370147,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#6f4960",
+            "contrast_ratio": 4.473930963568341,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#102545",
+            "contrast_ratio": 9.11943464153293,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#98db34",
+            "background": "#1539c7",
+            "contrast_ratio": 5.126162292577806,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#232c33",
+            "contrast_ratio": 4.501532339680451,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#32607f",
+            "contrast_ratio": 2.137947653067577,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#198484",
+            "contrast_ratio": 1.4246333408859426,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.1315296046813086,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#db7634",
+            "contrast_ratio": 1.0010864606002585,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#355368",
+            "contrast_ratio": 2.5729225293480615,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#593e2b",
+            "contrast_ratio": 3.099638572432676,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.875994498197694,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#2973a5",
+            "contrast_ratio": 1.6284513237506208,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#db3497",
+            "contrast_ratio": 1.345472655306902,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#1482cc",
+            "contrast_ratio": 1.3072743921142602,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#3498db",
+            "contrast_ratio": 1.0,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#1498b9",
+            "contrast_ratio": 1.0704974284124302,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#98db34",
+            "contrast_ratio": 1.8794135326706338,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#314959",
+            "contrast_ratio": 2.9895001627736155,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#5289ad",
+            "contrast_ratio": 1.2021031985050346,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#6f4960",
+            "contrast_ratio": 2.380493109044988,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#102545",
+            "contrast_ratio": 4.852276778370471,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#3498DB",
+            "background": "#1539c7",
+            "contrast_ratio": 2.727532926345148,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#232c33",
+            "contrast_ratio": 1.5057809314531008,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#32607f",
+            "contrast_ratio": 1.3983037229579554,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#198484",
+            "contrast_ratio": 2.098434788079944,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#6da1c3",
+            "contrast_ratio": 3.3827079373779365,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#db7634",
+            "contrast_ratio": 2.986255713598494,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#355368",
+            "contrast_ratio": 1.1619083468988505,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#593e2b",
+            "contrast_ratio": 1.0368417473364095,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.0394665791770645,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#2973a5",
+            "contrast_ratio": 1.8357933818299528,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#db3497",
+            "contrast_ratio": 2.2218958898809515,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#1482cc",
+            "contrast_ratio": 2.2868191871629064,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#3498db",
+            "contrast_ratio": 2.9895001627736155,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#1498b9",
+            "contrast_ratio": 2.7926271314888687,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#98db34",
+            "contrast_ratio": 5.6185070618377955,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#3498DB",
+            "contrast_ratio": 2.9895001627736155,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#5289ad",
+            "contrast_ratio": 2.486891447000085,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#6f4960",
+            "contrast_ratio": 1.255832311135297,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#102545",
+            "contrast_ratio": 1.6231063770435117,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#314959",
+            "background": "#1539c7",
+            "contrast_ratio": 1.0960454900097207,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#232c33",
+            "contrast_ratio": 3.7447137194865374,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#32607f",
+            "contrast_ratio": 1.7785059183990042,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#198484",
+            "contrast_ratio": 1.1851173365628276,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#6da1c3",
+            "contrast_ratio": 1.3602153569905382,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#db7634",
+            "contrast_ratio": 1.200798578161016,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#355368",
+            "contrast_ratio": 2.140350788973702,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#593e2b",
+            "contrast_ratio": 2.57851287334354,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#0c4c77",
+            "contrast_ratio": 2.392468884347328,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#2973a5",
+            "contrast_ratio": 1.3546684891744765,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#db3497",
+            "contrast_ratio": 1.1192655147912138,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#1482cc",
+            "contrast_ratio": 1.0874893218319521,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#3498db",
+            "contrast_ratio": 1.2021031985050346,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#1498b9",
+            "contrast_ratio": 1.1229388941996603,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#98db34",
+            "contrast_ratio": 2.2592490189370147,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#3498DB",
+            "contrast_ratio": 1.2021031985050346,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#314959",
+            "contrast_ratio": 2.486891447000085,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#6f4960",
+            "contrast_ratio": 1.980273500649053,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#102545",
+            "contrast_ratio": 4.036489366640804,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#5289ad",
+            "background": "#1539c7",
+            "contrast_ratio": 2.268967364646543,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#232c33",
+            "contrast_ratio": 1.8910083472102075,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#32607f",
+            "contrast_ratio": 1.1134477991682357,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#198484",
+            "contrast_ratio": 1.670951423588487,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#6da1c3",
+            "contrast_ratio": 2.6935984266242543,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#db7634",
+            "contrast_ratio": 2.3779096039493206,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#355368",
+            "contrast_ratio": 1.0808359493131543,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#593e2b",
+            "contrast_ratio": 1.3020993678390427,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.20815073451378,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#2973a5",
+            "contrast_ratio": 1.4618141017333435,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#db3497",
+            "contrast_ratio": 1.7692616045786513,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#1482cc",
+            "contrast_ratio": 1.8209590300281233,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#3498db",
+            "contrast_ratio": 2.380493109044988,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#1498b9",
+            "contrast_ratio": 2.223726135031738,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#98db34",
+            "contrast_ratio": 4.473930963568341,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#3498DB",
+            "contrast_ratio": 2.380493109044988,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#314959",
+            "contrast_ratio": 1.255832311135297,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#5289ad",
+            "contrast_ratio": 1.980273500649053,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#102545",
+            "contrast_ratio": 2.0383494327009917,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#6f4960",
+            "background": "#1539c7",
+            "contrast_ratio": 1.145784844317145,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#232c33",
+            "contrast_ratio": 1.077916676416662,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#32607f",
+            "contrast_ratio": 2.269595689776741,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#198484",
+            "contrast_ratio": 3.4059828863425072,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#6da1c3",
+            "contrast_ratio": 5.490494824833833,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#db7634",
+            "contrast_ratio": 4.847010692224338,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#355368",
+            "contrast_ratio": 1.885900847391609,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#593e2b",
+            "contrast_ratio": 1.565433086788012,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.6871648333858977,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#2973a5",
+            "contrast_ratio": 2.9796879449824707,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#db3497",
+            "contrast_ratio": 3.6063733879925404,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#1482cc",
+            "contrast_ratio": 3.711750805829573,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#3498db",
+            "contrast_ratio": 4.852276778370471,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#1498b9",
+            "contrast_ratio": 4.532730905824312,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#98db34",
+            "contrast_ratio": 9.11943464153293,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#3498DB",
+            "contrast_ratio": 4.852276778370471,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#314959",
+            "contrast_ratio": 1.6231063770435117,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#5289ad",
+            "contrast_ratio": 4.036489366640804,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#6f4960",
+            "contrast_ratio": 2.0383494327009917,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#102545",
+            "background": "#1539c7",
+            "contrast_ratio": 1.7789984243645582,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#232c33",
+            "contrast_ratio": 1.6504043988618076,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#32607f",
+            "contrast_ratio": 1.2757716132252446,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#198484",
+            "contrast_ratio": 1.9145508167378464,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#6da1c3",
+            "contrast_ratio": 3.086284253902578,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#db7634",
+            "contrast_ratio": 2.7245727853613166,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#355368",
+            "contrast_ratio": 1.0600913534059118,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#593e2b",
+            "contrast_ratio": 1.13642572102187,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#0c4c77",
+            "contrast_ratio": 1.0544307166445401,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#2973a5",
+            "contrast_ratio": 1.6749244429751462,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#db3497",
+            "contrast_ratio": 2.027193132158452,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#1482cc",
+            "contrast_ratio": 2.0864272587286727,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#3498db",
+            "contrast_ratio": 2.727532926345148,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#1498b9",
+            "contrast_ratio": 2.5479117034313066,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#98db34",
+            "contrast_ratio": 5.126162292577806,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#3498DB",
+            "contrast_ratio": 2.727532926345148,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#314959",
+            "contrast_ratio": 1.0960454900097207,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#5289ad",
+            "contrast_ratio": 2.268967364646543,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#6f4960",
+            "contrast_ratio": 1.145784844317145,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1539c7",
+            "background": "#102545",
+            "contrast_ratio": 1.7789984243645582,
+            "passes_wcag": false,
+            "grade": "Fail"
+          }
+        ],
+        "recommendations": [
+          "\u26a0\ufe0f Low accessibility score - consider revising color choices",
+          "Add more contrast between colors",
+          "Consider including neutral colors (white, black, grays)",
+          "Always test with real users and assistive technologies"
+        ],
+        "processing_time_ms": 0.7011890411376953
+      },
+      "key_combinations": [
+        {
+          "foreground": "#3498DB",
+          "background": "#FFFFFF",
+          "result": {
+            "success": true,
+            "foreground_color": "#3498DB",
+            "background_color": "#FFFFFF",
+            "contrast_result": {
+              "ratio": 3.153057500542468,
+              "passes_aa_normal": false,
+              "passes_aa_large": true,
+              "passes_aaa_normal": false,
+              "passes_aaa_large": false,
+              "grade": "AA Large"
+            },
+            "colorblindness_results": [
+              {
+                "type": "protanopia",
+                "simulated_foreground": "#5f60ca",
+                "simulated_background": "#ffffff",
+                "contrast_ratio": 5.2335388880948726,
+                "passes_wcag": true
+              },
+              {
+                "type": "deuteranopia",
+                "simulated_foreground": "#5951c6",
+                "simulated_background": "#ffffff",
+                "contrast_ratio": 6.145409790159076,
+                "passes_wcag": true
+              },
+              {
+                "type": "tritanopia",
+                "simulated_foreground": "#39bdbb",
+                "simulated_background": "#ffffff",
+                "contrast_ratio": 2.2899312297469905,
+                "passes_wcag": false
+              },
+              {
+                "type": "achromatopsia",
+                "simulated_foreground": "#818181",
+                "simulated_background": "#fefefe",
+                "contrast_ratio": 3.8627120412026175,
+                "passes_wcag": false
+              }
+            ],
+            "recommendations": [
+              "Current contrast ratio 3.15 does not meet WCAGLevel.AA TextSize.NORMAL text requirements (4.5)",
+              "Try darkening the text color or lightening the background",
+              "Test with actual users who have visual impairments",
+              "Always test colors in different lighting conditions",
+              "Consider providing high contrast mode option"
+            ],
+            "processing_time_ms": 0.1380443572998047
+          }
+        },
+        {
+          "foreground": "#3498DB",
+          "background": "#000000",
+          "result": {
+            "success": true,
+            "foreground_color": "#3498DB",
+            "background_color": "#000000",
+            "contrast_result": {
+              "ratio": 6.6602020408403755,
+              "passes_aa_normal": true,
+              "passes_aa_large": true,
+              "passes_aaa_normal": false,
+              "passes_aaa_large": true,
+              "grade": "AA"
+            },
+            "colorblindness_results": [
+              {
+                "type": "protanopia",
+                "simulated_foreground": "#5f60ca",
+                "simulated_background": "#000000",
+                "contrast_ratio": 4.012581247417553,
+                "passes_wcag": false
+              },
+              {
+                "type": "deuteranopia",
+                "simulated_foreground": "#5951c6",
+                "simulated_background": "#000000",
+                "contrast_ratio": 3.4171846495295166,
+                "passes_wcag": false
+              },
+              {
+                "type": "tritanopia",
+                "simulated_foreground": "#39bdbb",
+                "simulated_background": "#000000",
+                "contrast_ratio": 9.17058107562481,
+                "passes_wcag": true
+              },
+              {
+                "type": "achromatopsia",
+                "simulated_foreground": "#818181",
+                "simulated_background": "#000000",
+                "contrast_ratio": 5.390523994585384,
+                "passes_wcag": true
+              }
+            ],
+            "recommendations": [
+              "\u2705 Meets WCAGLevel.AA requirements for TextSize.NORMAL text",
+              "Always test colors in different lighting conditions",
+              "Consider providing high contrast mode option"
+            ],
+            "processing_time_ms": 0.1289844512939453
+          }
+        }
+      ],
+      "recommendations": [
+        "\u274c Low accessibility - consider revising color choices for better contrast",
+        "\ud83c\udfa8 Monochromatic palette: Great for minimalist, cohesive designs",
+        "\ud83c\udfa8 Complementary palette: High contrast, perfect for call-to-action elements",
+        "\ud83c\udfa8 Triadic palette: Vibrant and energetic, use sparingly for accents",
+        "\ud83d\udca1 Always test colors in different lighting conditions",
+        "\ud83d\udca1 Consider providing a high contrast mode for accessibility"
+      ],
+      "total_colors_analyzed": 20
+    }
+  },
+  "palette_generation": {
+    "status": "success",
+    "data": {
+      "success": true,
+      "base_color": "#E74C3C",
+      "scheme": "triadic",
+      "palette": {
+        "success": true,
+        "palette_type": "triadic",
+        "base_color": "#E74C3C",
+        "colors": [
+          {
+            "hex_code": "#e74c3c",
+            "rgb": [
+              231,
+              76,
+              60
+            ],
+            "hsv": [
+              0.015594541910331383,
+              0.7402597402597403,
+              0.9058823529411765
+            ],
+            "hsl": [
+              0.015594541910331383,
+              0.5705882352941176,
+              0.7808219178082192
+            ],
+            "color_name": "Red",
+            "role": "primary"
+          },
+          {
+            "hex_code": "#3be74b",
+            "rgb": [
+              59,
+              231,
+              75
+            ],
+            "hsv": [
+              0.3488372093023256,
+              0.7445887445887447,
+              0.9058823529411765
+            ],
+            "hsl": [
+              0.3488372093023256,
+              0.5686274509803921,
+              0.7818181818181819
+            ],
+            "color_name": "Green",
+            "role": "secondary"
+          },
+          {
+            "hex_code": "#4b3be7",
+            "rgb": [
+              75,
+              59,
+              231
+            ],
+            "hsv": [
+              0.6821705426356589,
+              0.7445887445887447,
+              0.9058823529411765
+            ],
+            "hsl": [
+              0.6821705426356589,
+              0.5686274509803921,
+              0.7818181818181819
+            ],
+            "color_name": "Blue",
+            "role": "accent"
+          },
+          {
+            "hex_code": "#391a17",
+            "rgb": [
+              57,
+              26,
+              23
+            ],
+            "hsv": [
+              0.014705882352941199,
+              0.5964912280701755,
+              0.2235294117647059
+            ],
+            "hsl": [
+              0.014705882352941199,
+              0.1568627450980392,
+              0.4250000000000001
+            ],
+            "color_name": "Red",
+            "role": "highlight"
+          },
+          {
+            "hex_code": "#39613c",
+            "rgb": [
+              57,
+              97,
+              60
+            ],
+            "hsv": [
+              0.3458333333333334,
+              0.4123711340206185,
+              0.3803921568627451
+            ],
+            "hsl": [
+              0.3458333333333334,
+              0.30196078431372547,
+              0.2597402597402597
+            ],
+            "color_name": "Green",
+            "role": "neutral"
+          }
+        ],
+        "total_colors": 5,
+        "processing_time_ms": 0.06318092346191406,
+        "harmony_score": 0.8085644405753843,
+        "usage_suggestions": [
+          "Choose one color as primary",
+          "Use other two as accents sparingly",
+          "Balance with neutral tones",
+          "Great for vibrant, energetic designs"
+        ]
+      },
+      "accessibility_analysis": {
+        "success": true,
+        "total_combinations": 20,
+        "accessible_combinations": 2,
+        "accessibility_score": 0.1,
+        "color_pairs": [
+          {
+            "foreground": "#e74c3c",
+            "background": "#3be74b",
+            "contrast_ratio": 2.3136921695934625,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#e74c3c",
+            "background": "#4b3be7",
+            "contrast_ratio": 1.7854546726341456,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#e74c3c",
+            "background": "#391a17",
+            "contrast_ratio": 4.120233690447033,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#e74c3c",
+            "background": "#39613c",
+            "contrast_ratio": 1.863895444857717,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3be74b",
+            "background": "#e74c3c",
+            "contrast_ratio": 2.3136921695934625,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3be74b",
+            "background": "#4b3be7",
+            "contrast_ratio": 4.130992495237682,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#3be74b",
+            "background": "#391a17",
+            "contrast_ratio": 9.532952426482474,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#3be74b",
+            "background": "#39613c",
+            "contrast_ratio": 4.312480295708223,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#4b3be7",
+            "background": "#e74c3c",
+            "contrast_ratio": 1.7854546726341456,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#4b3be7",
+            "background": "#3be74b",
+            "contrast_ratio": 4.130992495237682,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#4b3be7",
+            "background": "#391a17",
+            "contrast_ratio": 2.3076663628588814,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#4b3be7",
+            "background": "#39613c",
+            "contrast_ratio": 1.0439332196027384,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#391a17",
+            "background": "#e74c3c",
+            "contrast_ratio": 4.120233690447033,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#391a17",
+            "background": "#3be74b",
+            "contrast_ratio": 9.532952426482474,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#391a17",
+            "background": "#4b3be7",
+            "contrast_ratio": 2.3076663628588814,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#391a17",
+            "background": "#39613c",
+            "contrast_ratio": 2.210549793345064,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#39613c",
+            "background": "#e74c3c",
+            "contrast_ratio": 1.863895444857717,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#39613c",
+            "background": "#3be74b",
+            "contrast_ratio": 4.312480295708223,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#39613c",
+            "background": "#4b3be7",
+            "contrast_ratio": 1.0439332196027384,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#39613c",
+            "background": "#391a17",
+            "contrast_ratio": 2.210549793345064,
+            "passes_wcag": false,
+            "grade": "Fail"
+          }
+        ],
+        "recommendations": [
+          "\u26a0\ufe0f Low accessibility score - consider revising color choices",
+          "Add more contrast between colors",
+          "Consider including neutral colors (white, black, grays)",
+          "Always test with real users and assistive technologies"
+        ],
+        "processing_time_ms": 0.04410743713378906
+      },
+      "timestamp": "2025-01-07T13:34:35+08:00"
+    }
+  },
+  "accessibility_check": {
+    "status": "success",
+    "data": {
+      "success": true,
+      "background": "#FFFFFF",
+      "text": "#3498DB",
+      "accessibility": {
+        "success": true,
+        "foreground_color": "#3498DB",
+        "background_color": "#FFFFFF",
+        "contrast_result": {
+          "ratio": 3.153057500542468,
+          "passes_aa_normal": false,
+          "passes_aa_large": true,
+          "passes_aaa_normal": false,
+          "passes_aaa_large": false,
+          "grade": "AA Large"
+        },
+        "colorblindness_results": [
+          {
+            "type": "protanopia",
+            "simulated_foreground": "#5f60ca",
+            "simulated_background": "#ffffff",
+            "contrast_ratio": 5.2335388880948726,
+            "passes_wcag": true
+          },
+          {
+            "type": "deuteranopia",
+            "simulated_foreground": "#5951c6",
+            "simulated_background": "#ffffff",
+            "contrast_ratio": 6.145409790159076,
+            "passes_wcag": true
+          },
+          {
+            "type": "tritanopia",
+            "simulated_foreground": "#39bdbb",
+            "simulated_background": "#ffffff",
+            "contrast_ratio": 2.2899312297469905,
+            "passes_wcag": false
+          },
+          {
+            "type": "achromatopsia",
+            "simulated_foreground": "#818181",
+            "simulated_background": "#fefefe",
+            "contrast_ratio": 3.8627120412026175,
+            "passes_wcag": false
+          }
+        ],
+        "recommendations": [
+          "Current contrast ratio 3.15 does not meet WCAGLevel.AA TextSize.NORMAL text requirements (4.5)",
+          "Try darkening the text color or lightening the background",
+          "Test with actual users who have visual impairments",
+          "Always test colors in different lighting conditions",
+          "Consider providing high contrast mode option"
+        ],
+        "processing_time_ms": 0.1480579376220703
+      },
+      "timestamp": "2025-01-07T13:34:35+08:00"
+    }
+  },
+  "ai_chat": {
+    "status": "success",
+    "data": {
+      "message": "\u63a8\u8350\u4e00\u4e2a\u73b0\u4ee3\u5316\u7684\u84dd\u8272\u914d\u8272\u65b9\u6848\uff0c\u8981\u6c42\u7b26\u5408WCAG AA\u6807\u51c6",
+      "reply": "\u5f53\u7136\u53ef\u4ee5\uff01\u4ee5\u4e0b\u662f\u4e00\u4e2a**\u73b0\u4ee3\u5316\u7684\u84dd\u8272\u914d\u8272\u65b9\u6848**\uff0c\u9002\u7528\u4e8e\u7f51\u9875\u3001\u5e94\u7528\u7a0b\u5e8f\u6216\u6570\u5b57\u4ea7\u54c1\u754c\u9762\u8bbe\u8ba1\u3002\u8be5\u914d\u8272\u65b9\u6848\u7b26\u5408 **WCAG AA\u6807\u51c6**\uff08\u6700\u5c0f\u5bf9\u6bd4\u5ea6\u4e3a4.5:1\uff09\uff0c\u540c\u65f6\u517c\u987e\u73b0\u4ee3\u8bbe\u8ba1\u8d8b\u52bf\u4e0e\u53ef\u8bbf\u95ee\u6027\u3002\n\n---\n\n### \ud83c\udfa8 1. \u4e3b\u8272\u8c03\u5efa\u8bae\n\n- **\u4e3b\u84dd\u8272\uff08Primary Blue\uff09**  \n  - `#1A73E8`  \n  - \u4e00\u79cd\u660e\u4eae\u3001\u73b0\u4ee3\u3001\u5bcc\u6709\u79d1\u6280\u611f\u7684\u84dd\u8272\uff0c\u5e7f\u6cdb\u7528\u4e8eGoogle\u3001Figma\u7b49\u73b0\u4ee3\u754c\u9762\u8bbe\u8ba1\u4e2d\u3002\n\n---\n\n### \ud83c\udfa8 2. \u8f85\u52a9\u8272\u5f69\u642d\u914d\n\n- **\u8f85\u52a9\u84dd\uff08Lighter Blue\uff09**  \n  - `#4285F4`  \n  - \u7a0d\u6d45\u4e00\u4e9b\u7684\u84dd\u8272\uff0c\u9002\u5408\u6309\u94ae\u3001\u56fe\u6807\u6216\u60ac\u505c\u72b6\u6001\u3002\n\n- **\u6df1\u84dd\uff08Dark Blue\uff09**  \n  - `#0B3D91`  \n  - \u7528\u4e8e\u5f3a\u8c03\u5185\u5bb9\u3001\u6807\u9898\u6216\u6b21\u8981\u5bfc\u822a\u680f\u3002\n\n- **\u4e2d\u6027\u7070\u84dd\uff08Neutral Blue\uff09**  \n  - `#5F6368`  \n  - \u9002\u7528\u4e8e\u6b21\u8981\u6587\u672c\u6216\u56fe\u6807\u989c\u8272\u3002\n\n- **\u6de1\u84dd\u80cc\u666f\u8272\uff08Light Accent\uff09**  \n  - `#E8F0FE`  \n  - \u7528\u4e8e\u9ad8\u4eae\u533a\u57df\u3001\u5361\u7247\u80cc\u666f\u6216\u63d0\u793a\u4fe1\u606f\u3002\n\n---\n\n### \ud83d\udd8b\ufe0f 3. \u6587\u5b57\u989c\u8272\u5efa\u8bae\n\n- **\u4e3b\u8981\u6587\u5b57\u989c\u8272\uff08Primary Text\uff09**  \n  - `#202124`  \n  - \u6df1\u7070\u8272\uff0c\u5bf9\u6bd4\u5ea6\u9ad8\uff0c\u6e05\u6670\u6613\u8bfb\uff0c\u7b26\u5408AA\u6807\u51c6\u3002\n\n- **\u6b21\u8981\u6587\u5b57\u989c\u8272\uff08Secondary Text\uff09**  \n  - `#5F6368`  \n  - \u7070\u84dd\u8272\uff0c\u7528\u4e8e\u8f85\u52a9\u4fe1\u606f\u3001\u6807\u7b7e\u6216\u63cf\u8ff0\u6587\u5b57\u3002\n\n---\n\n### \ud83c\udf11 4. \u80cc\u666f\u8272\u5efa\u8bae\n\n- **\u4e3b\u80cc\u666f\u8272\uff08Background\uff09**  \n  - `#FFFFFF`\uff08\u7eaf\u767d\uff09\u6216 `#F1F3F4`\uff08\u6d45\u7070\u84dd\uff09  \n  - \u767d\u8272\u80cc\u666f\u589e\u5f3a\u5bf9\u6bd4\u5ea6\uff0c\u6d45\u7070\u84dd\u80cc\u666f\u53ef\u63d0\u5347\u6574\u4f53\u89c6\u89c9\u8212\u9002\u5ea6\u5e76\u51cf\u5c11\u773c\u775b\u75b2\u52b3\u3002\n\n- **\u5361\u7247\u80cc\u666f\u8272\uff08Card Background\uff09**  \n  - `#FFFFFF` \u6216 `#F8F9FA`  \n  - \u7528\u4e8e\u5361\u7247\u7ec4\u4ef6\u3001\u5f39\u7a97\u7b49\u6a21\u5757\u5316\u533a\u57df\u3002\n\n---\n\n### \ud83e\udde0 5. \u8bbe\u8ba1\u7406\u7531\u8bf4\u660e\n\n- **\u73b0\u4ee3\u5316\u611f\u89c2**\uff1a\u9009\u7528\u7684\u84dd\u8272\u8c03\uff08\u5982 #1A73E8\uff09\u662f\u5f53\u524d\u4e3b\u6d41\u8bbe\u8ba1\u7cfb\u7edf\uff08\u5982Material Design\u3001Figma UI\uff09\u4e2d\u5e38\u7528\u7684\u4e3b\u8272\uff0c\u5177\u6709\u73b0\u4ee3\u611f\u548c\u79d1\u6280\u611f\u3002\n- **\u826f\u597d\u7684\u5bf9\u6bd4\u5ea6**\uff1a\u4e3b\u8272\u4e0e\u767d\u8272\u80cc\u666f\u7684\u5bf9\u6bd4\u5ea6\u7ea6\u4e3a **7.2:1**\uff0c\u6ee1\u8db3 WCAG AA \u548c AAA \u6807\u51c6\uff0c\u786e\u4fdd\u53ef\u8bbf\u95ee\u6027\u3002\n- **\u8272\u5f69\u5c42\u6b21\u6e05\u6670**\uff1a\u901a\u8fc7\u6df1\u84dd\u3001\u6d45\u84dd\u548c\u7070\u84dd\u6784\u5efa\u4e86\u5b8c\u6574\u7684\u8272\u5f69\u5c42\u7ea7\uff0c\u9002\u5408\u6309\u94ae\u3001\u56fe\u6807\u3001\u80cc\u666f\u7b49\u4e0d\u540cUI\u5143\u7d20\u3002\n- **\u89c6\u89c9\u8212\u9002\u5ea6**\uff1a\u4f7f\u7528\u6d45\u7070\u84dd\u80cc\u666f\uff08\u5982 #F1F3F4\uff09\u4ee3\u66ff\u7eaf\u767d\uff0c\u53ef\u4ee5\u51cf\u5c11\u89c6\u89c9\u75b2\u52b3\uff0c\u5c24\u5176\u9002\u5408\u957f\u65f6\u95f4\u4f7f\u7528\u7684\u5e94\u7528\u754c\u9762\u3002\n- **\u53ef\u6269\u5c55\u6027\u5f3a**\uff1a\u8be5\u914d\u8272\u65b9\u6848\u53ef\u7528\u4e8e\u591a\u79cd\u754c\u9762\u7ec4\u4ef6\uff08\u6309\u94ae\u3001\u5361\u7247\u3001\u5bfc\u822a\u680f\u7b49\uff09\uff0c\u6613\u4e8e\u7ef4\u62a4\u548c\u6269\u5c55\u3002\n\n---\n\n### \u2705 \u5bf9\u6bd4\u5ea6\u9a8c\u8bc1\uff08\u793a\u4f8b\uff09\n\n| \u524d\u666f\u8272       | \u80cc\u666f\u8272       | \u5bf9\u6bd4\u5ea6 | \u662f\u5426\u7b26\u5408 AA |\n|--------------|--------------|--------|--------------|\n| `#1A73E8`    | `#FFFFFF`    | 7.2:1  | \u2705 \u662f         |\n| `#202124`    | `#FFFFFF`    | 15.1:1 | \u2705 \u662f         |\n| `#5F6368`    | `#FFFFFF`    | 10.2:1 | \u2705 \u662f         |\n| `#0B3D91`    | `#F1F3F4`    | 7.8:1  | \u2705 \u662f         |\n\n---\n\n\u5982\u679c\u4f60\u6709\u7279\u5b9a\u7684\u4f7f\u7528\u573a\u666f\uff08\u5982\u79fb\u52a8\u7aef\u3001\u6df1\u8272\u6a21\u5f0f\u3001\u4f01\u4e1a\u7ea7\u5e94\u7528\u7b49\uff09\uff0c\u6211\u4e5f\u53ef\u4ee5\u4e3a\u4f60\u8fdb\u4e00\u6b65\u5b9a\u5236\u914d\u8272\u65b9\u6848\uff01",
+      "model": "qwen-plus",
+      "usage": {
+        "prompt_tokens": 164,
+        "completion_tokens": 888,
+        "total_tokens": 1052,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timestamp": "2025-01-07T13:34:35+08:00"
+    }
+  },
+  "image_analysis": {
+    "status": "success",
+    "data": {
+      "success": true,
+      "image_url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
+      "extracted_colors": {
+        "success": true,
+        "colors": [
+          {
+            "hex_code": "#686f8b",
+            "rgb": [
+              104,
+              111,
+              139
+            ],
+            "percentage": 0.23976313320825515,
+            "color_name": "Blue-ish"
+          },
+          {
+            "hex_code": "#3e4863",
+            "rgb": [
+              62,
+              72,
+              99
+            ],
+            "percentage": 0.22440196998123826,
+            "color_name": "Blue-ish"
+          },
+          {
+            "hex_code": "#1c212e",
+            "rgb": [
+              28,
+              33,
+              46
+            ],
+            "percentage": 0.2227110694183865,
+            "color_name": "Dark"
+          },
+          {
+            "hex_code": "#9494ab",
+            "rgb": [
+              148,
+              148,
+              171
+            ],
+            "percentage": 0.18825281425891183,
+            "color_name": "Blue-ish"
+          },
+          {
+            "hex_code": "#dab7ae",
+            "rgb": [
+              218,
+              183,
+              174
+            ],
+            "percentage": 0.12487101313320825,
+            "color_name": "Red-ish"
+          }
+        ],
+        "total_colors_found": 5,
+        "processing_time_ms": 747.0200061798096,
+        "algorithm_used": "sklearn K-Means",
+        "image_dimensions": {
+          "width": 800,
+          "height": 533
+        }
+      },
+      "accessibility_analysis": {
+        "success": true,
+        "total_combinations": 20,
+        "accessible_combinations": 6,
+        "accessibility_score": 0.3,
+        "color_pairs": [
+          {
+            "foreground": "#686f8b",
+            "background": "#3e4863",
+            "contrast_ratio": 1.831880370862839,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#686f8b",
+            "background": "#1c212e",
+            "contrast_ratio": 3.2419648079193273,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#686f8b",
+            "background": "#9494ab",
+            "contrast_ratio": 1.6724573846580273,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#686f8b",
+            "background": "#dab7ae",
+            "contrast_ratio": 2.683620629942454,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3e4863",
+            "background": "#686f8b",
+            "contrast_ratio": 1.831880370862839,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3e4863",
+            "background": "#1c212e",
+            "contrast_ratio": 1.7697470094034145,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#3e4863",
+            "background": "#9494ab",
+            "contrast_ratio": 3.063741854059641,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#3e4863",
+            "background": "#dab7ae",
+            "contrast_ratio": 4.916071954834148,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#1c212e",
+            "background": "#686f8b",
+            "contrast_ratio": 3.2419648079193273,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#1c212e",
+            "background": "#3e4863",
+            "contrast_ratio": 1.7697470094034145,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#1c212e",
+            "background": "#9494ab",
+            "contrast_ratio": 5.422047983806121,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#1c212e",
+            "background": "#dab7ae",
+            "contrast_ratio": 8.700203640079732,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#9494ab",
+            "background": "#686f8b",
+            "contrast_ratio": 1.6724573846580273,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#9494ab",
+            "background": "#3e4863",
+            "contrast_ratio": 3.063741854059641,
+            "passes_wcag": false,
+            "grade": "AA Large"
+          },
+          {
+            "foreground": "#9494ab",
+            "background": "#1c212e",
+            "contrast_ratio": 5.422047983806121,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#9494ab",
+            "background": "#dab7ae",
+            "contrast_ratio": 1.6045973156387376,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#dab7ae",
+            "background": "#686f8b",
+            "contrast_ratio": 2.683620629942454,
+            "passes_wcag": false,
+            "grade": "Fail"
+          },
+          {
+            "foreground": "#dab7ae",
+            "background": "#3e4863",
+            "contrast_ratio": 4.916071954834148,
+            "passes_wcag": true,
+            "grade": "AA"
+          },
+          {
+            "foreground": "#dab7ae",
+            "background": "#1c212e",
+            "contrast_ratio": 8.700203640079732,
+            "passes_wcag": true,
+            "grade": "AAA"
+          },
+          {
+            "foreground": "#dab7ae",
+            "background": "#9494ab",
+            "contrast_ratio": 1.6045973156387376,
+            "passes_wcag": false,
+            "grade": "Fail"
+          }
+        ],
+        "recommendations": [
+          "Moderate accessibility - some improvements possible",
+          "Test critical text/background combinations",
+          "Always test with real users and assistive technologies"
+        ],
+        "processing_time_ms": 0.04482269287109375
+      },
+      "palette_suggestions": [
+        {
+          "base_color": "#686f8b",
+          "palette": {
+            "success": true,
+            "palette_type": "complementary",
+            "base_color": "#686f8b",
+            "colors": [
+              {
+                "hex_code": "#686f8b",
+                "rgb": [
+                  104,
+                  111,
+                  139
+                ],
+                "hsv": [
+                  0.6333333333333333,
+                  0.25179856115107907,
+                  0.5450980392156862
+                ],
+                "hsl": [
+                  0.6333333333333333,
+                  0.4764705882352941,
+                  0.14403292181069954
+                ],
+                "color_name": "Blue",
+                "role": "primary"
+              },
+              {
+                "hex_code": "#8b8368",
+                "rgb": [
+                  139,
+                  131,
+                  104
+                ],
+                "hsv": [
+                  0.12857142857142856,
+                  0.25179856115107907,
+                  0.5450980392156862
+                ],
+                "hsl": [
+                  0.12857142857142856,
+                  0.4764705882352941,
+                  0.14403292181069954
+                ],
+                "color_name": "Yellow",
+                "role": "secondary"
+              },
+              {
+                "hex_code": "#3a4573",
+                "rgb": [
+                  58,
+                  69,
+                  115
+                ],
+                "hsv": [
+                  0.6345029239766081,
+                  0.4956521739130435,
+                  0.45098039215686275
+                ],
+                "hsl": [
+                  0.6345029239766081,
+                  0.3392156862745098,
+                  0.32947976878612717
+                ],
+                "color_name": "Blue",
+                "role": "accent"
+              },
+              {
+                "hex_code": "#a78f32",
+                "rgb": [
+                  167,
+                  143,
+                  50
+                ],
+                "hsv": [
+                  0.13247863247863248,
+                  0.7005988023952097,
+                  0.6549019607843137
+                ],
+                "hsl": [
+                  0.13247863247863248,
+                  0.42549019607843136,
+                  0.5391705069124425
+                ],
+                "color_name": "Yellow",
+                "role": "highlight"
+              }
+            ],
+            "total_colors": 4,
+            "processing_time_ms": 0.046253204345703125,
+            "harmony_score": 0.9941896959440818,
+            "usage_suggestions": [
+              "Use one color as dominant (60%)",
+              "Complementary color for accents (10%)",
+              "Neutral variations for balance (30%)",
+              "High contrast for call-to-action elements"
+            ]
+          }
+        },
+        {
+          "base_color": "#3e4863",
+          "palette": {
+            "success": true,
+            "palette_type": "complementary",
+            "base_color": "#3e4863",
+            "colors": [
+              {
+                "hex_code": "#3e4863",
+                "rgb": [
+                  62,
+                  72,
+                  99
+                ],
+                "hsv": [
+                  0.6216216216216216,
+                  0.37373737373737376,
+                  0.38823529411764707
+                ],
+                "hsl": [
+                  0.6216216216216216,
+                  0.3156862745098039,
+                  0.2298136645962733
+                ],
+                "color_name": "Blue",
+                "role": "primary"
+              },
+              {
+                "hex_code": "#63583e",
+                "rgb": [
+                  99,
+                  88,
+                  62
+                ],
+                "hsv": [
+                  0.1171171171171171,
+                  0.37373737373737376,
+                  0.38823529411764707
+                ],
+                "hsl": [
+                  0.1171171171171171,
+                  0.3156862745098039,
+                  0.2298136645962733
+                ],
+                "color_name": "Orange",
+                "role": "secondary"
+              },
+              {
+                "hex_code": "#394f8c",
+                "rgb": [
+                  57,
+                  79,
+                  140
+                ],
+                "hsv": [
+                  0.6224899598393575,
+                  0.592857142857143,
+                  0.5490196078431373
+                ],
+                "hsl": [
+                  0.6224899598393575,
+                  0.3862745098039216,
+                  0.42131979695431476
+                ],
+                "color_name": "Blue",
+                "role": "accent"
+              },
+              {
+                "hex_code": "#c5981e",
+                "rgb": [
+                  197,
+                  152,
+                  30
+                ],
+                "hsv": [
+                  0.1217564870259481,
+                  0.8477157360406091,
+                  0.7725490196078432
+                ],
+                "hsl": [
+                  0.1217564870259481,
+                  0.4450980392156863,
+                  0.7356828193832599
+                ],
+                "color_name": "Orange",
+                "role": "highlight"
+              }
+            ],
+            "total_colors": 4,
+            "processing_time_ms": 0.1049041748046875,
+            "harmony_score": 0.9925444329888455,
+            "usage_suggestions": [
+              "Use one color as dominant (60%)",
+              "Complementary color for accents (10%)",
+              "Neutral variations for balance (30%)",
+              "High contrast for call-to-action elements"
+            ]
+          }
+        },
+        {
+          "base_color": "#1c212e",
+          "palette": {
+            "success": true,
+            "palette_type": "complementary",
+            "base_color": "#1c212e",
+            "colors": [
+              {
+                "hex_code": "#1c212e",
+                "rgb": [
+                  28,
+                  33,
+                  46
+                ],
+                "hsv": [
+                  0.6203703703703703,
+                  0.391304347826087,
+                  0.1803921568627451
+                ],
+                "hsl": [
+                  0.6203703703703703,
+                  0.14509803921568626,
+                  0.24324324324324326
+                ],
+                "color_name": "Blue",
+                "role": "primary"
+              },
+              {
+                "hex_code": "#2e281c",
+                "rgb": [
+                  46,
+                  40,
+                  28
+                ],
+                "hsv": [
+                  0.11111111111111112,
+                  0.391304347826087,
+                  0.1803921568627451
+                ],
+                "hsl": [
+                  0.11111111111111112,
+                  0.14509803921568626,
+                  0.24324324324324326
+                ],
+                "color_name": "Orange",
+                "role": "secondary"
+              },
+              {
+                "hex_code": "#445174",
+                "rgb": [
+                  68,
+                  81,
+                  116
+                ],
+                "hsv": [
+                  0.6215277777777778,
+                  0.41379310344827586,
+                  0.4549019607843137
+                ],
+                "hsl": [
+                  0.6215277777777778,
+                  0.3607843137254902,
+                  0.2608695652173913
+                ],
+                "color_name": "Blue",
+                "role": "accent"
+              },
+              {
+                "hex_code": "#3c3421",
+                "rgb": [
+                  60,
+                  52,
+                  33
+                ],
+                "hsv": [
+                  0.11728395061728396,
+                  0.44999999999999996,
+                  0.23529411764705882
+                ],
+                "hsl": [
+                  0.11728395061728396,
+                  0.1823529411764706,
+                  0.2903225806451612
+                ],
+                "color_name": "Orange",
+                "role": "highlight"
+              }
+            ],
+            "total_colors": 4,
+            "processing_time_ms": 0.05125999450683594,
+            "harmony_score": 0.999836326225215,
+            "usage_suggestions": [
+              "Use one color as dominant (60%)",
+              "Complementary color for accents (10%)",
+              "Neutral variations for balance (30%)",
+              "High contrast for call-to-action elements"
+            ]
+          }
+        }
+      ],
+      "processing_info": {
+        "algorithm_used": "sklearn K-Means",
+        "total_processing_time": 747.0648288726807
+      }
+    }
+  },
+  "total_test_time": 19.254115104675293
+}

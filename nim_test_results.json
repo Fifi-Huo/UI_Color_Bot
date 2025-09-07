@@ -1,0 +1,148 @@
+{
+  "timestamp": 1757224995.515336,
+  "health_checks": {
+    "color_extraction": {
+      "status": "healthy",
+      "data": {
+        "status": "healthy",
+        "version": "1.0.0",
+        "gpu_available": false,
+        "cuml_available": false
+      }
+    },
+    "palette_generation": {
+      "status": "healthy",
+      "data": {
+        "status": "healthy",
+        "version": "1.0.0",
+        "supported_palettes": [
+          "monochromatic",
+          "analogous",
+          "complementary",
+          "triadic",
+          "tetradic",
+          "split_complementary",
+          "compound"
+        ]
+      }
+    },
+    "accessibility_check": {
+      "status": "healthy",
+      "data": {
+        "status": "healthy",
+        "version": "1.0.0",
+        "wcag_levels": [
+          "AA",
+          "AAA"
+        ],
+        "colorblindness_types": [
+          "protanopia",
+          "deuteranopia",
+          "tritanopia",
+          "achromatopsia"
+        ]
+      }
+    }
+  },
+  "functional_tests": {
+    "color_extraction": {
+      "service": "color_extraction",
+      "results": [
+        {
+          "test": "image_1",
+          "status": "success",
+          "colors_found": 5,
+          "algorithm": "sklearn K-Means",
+          "processing_time": 1.383228063583374,
+          "service_time": 1380.570888519287
+        },
+        {
+          "test": "image_2",
+          "status": "success",
+          "colors_found": 5,
+          "algorithm": "sklearn K-Means",
+          "processing_time": 1.983067274093628,
+          "service_time": 1981.990098953247
+        }
+      ]
+    },
+    "palette_generation": {
+      "service": "palette_generation",
+      "results": [
+        {
+          "test": "monochromatic",
+          "status": "success",
+          "colors_generated": 5,
+          "harmony_score": 0.007682009435164838,
+          "processing_time": 0.002368927001953125,
+          "service_time": 0.09393692016601562
+        },
+        {
+          "test": "complementary",
+          "status": "success",
+          "colors_generated": 5,
+          "harmony_score": 0.9084388650472907,
+          "processing_time": 0.0006318092346191406,
+          "service_time": 0.14162063598632812
+        },
+        {
+          "test": "triadic",
+          "status": "success",
+          "colors_generated": 5,
+          "harmony_score": 0.8088066291659105,
+          "processing_time": 0.0004928112030029297,
+          "service_time": 0.05412101745605469
+        },
+        {
+          "test": "analogous",
+          "status": "success",
+          "colors_generated": 5,
+          "harmony_score": 0.2022056725446556,
+          "processing_time": 0.00040602684020996094,
+          "service_time": 0.03910064697265625
+        }
+      ]
+    },
+    "accessibility_check": {
+      "service": "accessibility_check",
+      "results": [
+        {
+          "test": "pair_1_#000000_#FFFFFF",
+          "status": "success",
+          "contrast_ratio": 21.0,
+          "passes_aa": true,
+          "colorblind_checks": 4,
+          "processing_time": 0.00203704833984375,
+          "service_time": 0.5071163177490234
+        },
+        {
+          "test": "pair_2_#777777_#FFFFFF",
+          "status": "success",
+          "contrast_ratio": 4.478089453577214,
+          "passes_aa": false,
+          "colorblind_checks": 4,
+          "processing_time": 0.0008718967437744141,
+          "service_time": 0.12087821960449219
+        },
+        {
+          "test": "pair_3_#CCCCCC_#FFFFFF",
+          "status": "success",
+          "contrast_ratio": 1.6059285649300714,
+          "passes_aa": false,
+          "colorblind_checks": 4,
+          "processing_time": 0.0007321834564208984,
+          "service_time": 0.09417533874511719
+        },
+        {
+          "test": "palette_accessibility",
+          "status": "success",
+          "total_combinations": 12,
+          "accessible_combinations": 0,
+          "accessibility_score": 0.0,
+          "processing_time": 0.0008387565612792969,
+          "service_time": 0.04506111145019531
+        }
+      ]
+    }
+  }
+}

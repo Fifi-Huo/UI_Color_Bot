@@ -1,0 +1,36 @@
+# NVIDIA NIM Configuration for Color Extraction Service
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: color-extraction-nim-config
+  namespace: default
+data:
+  # Service configuration
+  service_name: "color-extraction-nim"
+  service_version: "1.0.0"
+  service_description: "NVIDIA NIM for extracting dominant colors using cuML K-Means"
+  
+  # Runtime configuration
+  port: "8080"
+  workers: "1"
+  max_concurrent_requests: "10"
+  request_timeout: "30"
+  
+  # Algorithm configuration
+  default_num_colors: "5"
+  max_num_colors: "20"
+  min_color_percentage: "0.05"
+  max_image_size: "800"
+  
+  # GPU configuration
+  cuda_visible_devices: "0"
+  enable_gpu_acceleration: "true"
+  cuml_memory_pool: "true"
+  
+  # Logging configuration
+  log_level: "INFO"
+  enable_metrics: "true"
+  
+  # Security configuration
+  cors_origins: "*"
+  max_request_size: "10MB"
