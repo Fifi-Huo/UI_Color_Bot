@@ -273,7 +273,10 @@ class BailianClient:
                 enhanced_message = message
             
             # 调用AI进行回答
-            return await self.chat_completion(enhanced_message)
+            print(f"[DEBUG] Enhanced message: {enhanced_message[:500]}...")
+            result = await self.chat_completion(enhanced_message)
+            print(f"[DEBUG] AI response: {result}")
+            return result
             
         except Exception as e:
             return {"success": False, "error": f"增强聊天处理失败: {str(e)}"}

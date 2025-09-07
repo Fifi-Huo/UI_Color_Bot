@@ -256,90 +256,14 @@ const handler = async (req: Request): Promise<Response> => {
     const hasImage = lastMessage?.attachments?.some((att: any) => att.type === 'image');
     let payload = { message: userMessage };
 
-    // If there's an image, perform color analysis and return results directly
+    // If there's an image, include it in the message for intelligent NIM processing
     if (hasImage && lastMessage?.attachments) {
       const imageAttachment = lastMessage.attachments.find((att: any) => att.type === 'image');
       if (imageAttachment?.content) {
-        try {
-          // Perform color analysis
-          const colorAnalysisResponse = await fetch('http://127.0.0.1:8001/analyze-image-base64', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              image_data: imageAttachment.content,
-              num_colors: 5
-            }),
-          });
-
-          if (colorAnalysisResponse.ok) {
-            const colorData = await colorAnalysisResponse.json();
-            
-            // Generate palette suggestions
-            const paletteResponse = await fetch('http://127.0.0.1:8001/color/palette', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                base_color: colorData.colors[0]?.hex_code || '#3498DB',
-                scheme: 'complementary',
-                num_colors: 5
-              }),
-            });
-
-            let paletteData = null;
-            if (paletteResponse.ok) {
-              paletteData = await paletteResponse.json();
-            }
-
-            // Generate annotated image
-            let annotatedImageData = null;
-            try {
-              const annotateResponse = await fetch('http://127.0.0.1:8001/annotate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  image_url: imageAttachment.content,
-                  colors: colorData.colors.map((color: any) => ({
-                    hex: color.hex_code,
-                    rgb: [
-                      parseInt(color.hex_code.slice(1, 3), 16),
-                      parseInt(color.hex_code.slice(3, 5), 16),
-                      parseInt(color.hex_code.slice(5, 7), 16)
-                    ],
-                    proportion: color.percentage
-                  }))
-                }),
-              });
-
-              if (annotateResponse.ok) {
-                annotatedImageData = await annotateResponse.json();
-              }
-            } catch (error) {
-              console.error('Image annotation failed:', error);
-            }
-
-            // Return color analysis results directly instead of calling chat API
-            const analysisResults = {
-              type: 'color_analysis',
-              colorData,
-              paletteData,
-              annotatedImageData,
-              userMessage
-            };
-
-            return new Response(JSON.stringify(analysisResults), {
-              headers: { 'Content-Type': 'application/json' }
-            });
-          }
-        } catch (error) {
-          console.error('Color analysis failed:', error);
-          return new Response(JSON.stringify({
-            type: 'error',
-            message: '图片颜色分析失败，请重试'
-          }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-          });
-        }
+        // Include image data in the message for backend processing
+        payload = { 
+          message: `${userMessage} ${imageAttachment.content}` 
+        };
       }
     }
 
