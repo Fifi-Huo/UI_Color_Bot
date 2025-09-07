@@ -844,13 +844,14 @@ export const Chat = () => {
               ? message.content
               : ''
             ).trim(),
+            attachments: message.attachments || [],
           };
         });
 
         const chatBody: ChatBody = {
           messages: chatHistory
             ? messagesCleaned
-            : [{ role: 'user', content: message?.content }],
+            : [{ role: 'user', content: message?.content, attachments: message?.attachments || [] }],
           chatCompletionURL:
             sessionStorage.getItem('chatCompletionURL') || chatCompletionURL,
           additionalProps: {

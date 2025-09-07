@@ -236,20 +236,87 @@ async function processChatStream(response: Response, encoder: TextEncoder, decod
 
 const handler = async (req: Request): Promise<Response> => {
   try {
+    const requestBody = await req.json();
+    
     const {
       chatCompletionURL = 'http://127.0.0.1:8001/chat/stream',
       messages = [],
       additionalProps = { enableIntermediateSteps: true },
-    } = (await req.json()) as ChatBody;
+    } = requestBody as ChatBody;
 
     // Extract the user message from the messages array
-    const userMessage = messages?.at(-1)?.content;
-    if (!userMessage) {
-      return new Response('No message provided', { status: 400 });
+    const lastMessage = messages?.at(-1);
+    const userMessage = lastMessage?.content;
+    
+    if (!userMessage && !lastMessage?.attachments?.length) {
+      return new Response('No message or attachment provided', { status: 400 });
     }
 
-    // Create payload for our backend
-    const payload = { message: userMessage };
+    // Check if the message has image attachments
+    const hasImage = lastMessage?.attachments?.some((att: any) => att.type === 'image');
+    let payload = { message: userMessage };
+
+    // If there's an image, perform color analysis first
+    if (hasImage && lastMessage?.attachments) {
+      const imageAttachment = lastMessage.attachments.find((att: any) => att.type === 'image');
+      if (imageAttachment?.content) {
+        try {
+          // Perform color analysis
+          const colorAnalysisResponse = await fetch('http://127.0.0.1:8001/analyze-image-base64', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image_data: imageAttachment.content,
+              num_colors: 5
+            }),
+          });
+
+          if (colorAnalysisResponse.ok) {
+            const colorData = await colorAnalysisResponse.json();
+            
+            // Generate palette suggestions
+            const paletteResponse = await fetch('http://127.0.0.1:8001/color/palette', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                base_color: colorData.colors[0]?.hex_code || '#3498DB',
+                scheme: 'complementary',
+                num_colors: 5
+              }),
+            });
+
+            let paletteData = null;
+            if (paletteResponse.ok) {
+              paletteData = await paletteResponse.json();
+            }
+
+            // Enhance the message with color analysis results
+            const colorAnalysisText = `
+图片颜色分析结果：
+${colorData.colors.map((color: any, i: number) => 
+  `${i+1}. ${color.hex_code} (${color.color_name}, ${(color.percentage * 100).toFixed(1)}%)`
+).join('\n')}
+
+处理时间: ${colorData.processing_time_ms.toFixed(1)}ms
+算法: ${colorData.algorithm_used}
+图片尺寸: ${colorData.image_dimensions.width} × ${colorData.image_dimensions.height}
+
+${paletteData ? `
+推荐配色方案 (${paletteData.palette?.palette_type || '互补色'}):
+${paletteData.palette?.colors?.join(', ') || ''}
+和谐度: ${((paletteData.palette?.harmony_score || 0) * 100).toFixed(0)}%
+` : ''}
+
+用户问题: ${userMessage}`;
+
+            payload = { message: colorAnalysisText };
+          }
+        } catch (error) {
+          console.error('Color analysis failed:', error);
+          payload = { message: `${userMessage}\n\n[图片颜色分析失败，但我仍然可以帮助您]` };
+        }
+      }
+    }
 
     // Use the configured URL or fallback to our backend
     const backendURL = chatCompletionURL || 'http://127.0.0.1:8001/chat/stream';

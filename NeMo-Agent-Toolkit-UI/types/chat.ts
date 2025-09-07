@@ -1,7 +1,13 @@
+export interface Attachment {
+  content: string;
+  type: 'image' | 'file';
+}
+
 export interface Message {
   id?: string;
   role: Role;
   content: string;
+  attachments?: Attachment[];
   intermediateSteps?: any;
   humanInteractionMessages?: any;
   errorMessages?: any;

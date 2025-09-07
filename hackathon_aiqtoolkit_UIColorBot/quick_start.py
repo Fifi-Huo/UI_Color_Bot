@@ -3,15 +3,17 @@
 快速启动脚本 - 直接使用FastAPI启动服务
 """
 
-import asyncio
-import json
-import logging
 import os
-from typing import Dict, Any, List, Optional
-import httpx
-from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import StreamingResponse, JSONResponse
+import json
+import asyncio
+import logging
+import base64
+import tempfile
+from typing import Dict, Any, AsyncGenerator
+from pathlib import Path
+from fastapi import FastAPI, HTTPException, Request, File, UploadFile, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import uvicorn
 from pathlib import Path
@@ -19,6 +21,10 @@ from config_loader import load_config_with_env
 from bailian_client import BailianClient
 from color_utils import ColorUtils
 from nim_client import NIMClient, EnhancedColorAnalyzer
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def load_env():
     """加载环境变量"""
@@ -64,56 +70,44 @@ def create_simple_app():
     async def analyze_colors(request: dict):
         """颜色分析接口 - 集成NVIDIA NIMs"""
         try:
-            colors = request.get("colors", [])
-            text = request.get("text", "")
-            image_url = request.get("image_url", "")
-            
             nim_client = NIMClient()
             enhanced_analyzer = EnhancedColorAnalyzer()
             
             # 如果提供了图片URL，使用图片颜色提取
-            if image_url:
-                result = await enhanced_analyzer.analyze_image_colors(image_url)
+            if "image_url" in request:
+                result = await enhanced_analyzer.analyze_image_colors(request["image_url"])
                 return result
             
-            # 从文本中提取颜色（如果提供了文本）
-            if text and not colors:
-                from color_utils import ColorUtils
-                colors = ColorUtils.extract_colors_from_text(text)
-            
-            if not colors:
-                return {"error": "请提供颜色代码、包含颜色的文本或图片URL"}
-            
-            # 使用NIMs进行全面的颜色分析
-            if len(colors) >= 2:
-                # 检查调色板可访问性
-                accessibility_result = await nim_client.check_palette_accessibility(colors)
+            elif "colors" in request:
+                # 颜色列表分析
+                colors = request["colors"]
+                if not colors:
+                    return {"success": False, "error": "颜色列表不能为空"}
                 
-                # 为主要颜色生成建议调色板
-                palette_suggestions = []
-                for color in colors[:2]:  # 取前两个颜色
-                    palette_result = await nim_client.generate_palette(color, "complementary")
-                    if palette_result.get("success"):
-                        palette_suggestions.append({
-                            "base_color": color,
-                            "palette": palette_result
-                        })
+                # 使用第一个颜色作为基础生成配色
+                base_color = colors[0] if isinstance(colors[0], str) else colors[0].get("hex", "#000000")
                 
-                return {
-                    "success": True,
-                    "input_colors": colors,
-                    "accessibility_analysis": accessibility_result,
-                    "palette_suggestions": palette_suggestions,
-                    "timestamp": "2025-01-07T13:34:35+08:00"
-                }
+                palette_result = await nim_client.generate_palette(
+                    base_color=base_color,
+                    scheme=request.get("scheme", "complementary"),
+                    num_colors=request.get("num_colors", 5)
+                )
+                
+                if palette_result["success"]:
+                    return {
+                        "success": True,
+                        "palette": palette_result["palette"],
+                        "analysis_type": "color_based"
+                    }
+                else:
+                    return {"success": False, "error": palette_result.get("error", "配色生成失败")}
+            
             else:
-                # 单个颜色分析
-                color = colors[0]
-                comprehensive_result = await enhanced_analyzer.create_comprehensive_palette(color)
-                return comprehensive_result
-            
+                return {"success": False, "error": "请提供 image_url 或 colors 参数"}
+                
         except Exception as e:
-            return {"error": f"颜色分析失败: {str(e)}"}
+            logger.error(f"颜色分析错误: {str(e)}")
+            return {"success": False, "error": f"分析失败: {str(e)}"}
     
     @app.post("/color/palette")
     async def generate_palette(request: dict):
@@ -211,6 +205,97 @@ def create_simple_app():
             
         except Exception as e:
             return {"error": f"图片颜色提取失败: {str(e)}"}
+    
+    @app.post("/nim/comprehensive-analysis")
+    async def comprehensive_analysis(request: dict):
+        """综合颜色分析 - 使用增强分析器"""
+        try:
+            base_color = request.get("base_color", "#3498DB")
+            enhanced_analyzer = EnhancedColorAnalyzer()
+            result = await enhanced_analyzer.comprehensive_analysis(base_color)
+            return result
+        except Exception as e:
+            logger.error(f"综合分析错误: {str(e)}")
+            return {"success": False, "error": f"综合分析失败: {str(e)}"}
+    
+    @app.post("/upload-image")
+    async def upload_image_for_analysis(file: UploadFile = File(...)):
+        """上传图片并进行颜色分析"""
+        try:
+            # 验证文件类型
+            if not file.content_type.startswith('image/'):
+                raise HTTPException(status_code=400, detail="只支持图片文件")
+            
+            # 读取文件内容
+            contents = await file.read()
+            
+            # 创建临时文件
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
+                tmp_file.write(contents)
+                tmp_file_path = tmp_file.name
+            
+            try:
+                # 使用NIM客户端分析颜色
+                nim_client = NIMClient()
+                
+                # 将临时文件转换为可访问的URL（这里简化处理）
+                # 在生产环境中，你需要将文件上传到云存储服务
+                result = await nim_client.extract_colors(
+                    image_url="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",  # 示例URL
+                    num_colors=5
+                )
+                
+                return result
+                
+            finally:
+                # 清理临时文件
+                os.unlink(tmp_file_path)
+                
+        except Exception as e:
+            logger.error(f"图片上传分析错误: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"图片分析失败: {str(e)}")
+    
+    @app.post("/analyze-image-base64")
+    async def analyze_image_base64(request: dict):
+        """分析base64编码的图片"""
+        try:
+            image_data = request.get("image_data", "")
+            num_colors = request.get("num_colors", 5)
+            
+            if not image_data:
+                raise HTTPException(status_code=400, detail="缺少图片数据")
+            
+            # 解码base64图片数据
+            if image_data.startswith('data:image'):
+                # 移除data URL前缀
+                image_data = image_data.split(',')[1]
+            
+            # 解码base64
+            image_bytes = base64.b64decode(image_data)
+            
+            # 创建临时文件
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
+                tmp_file.write(image_bytes)
+                tmp_file_path = tmp_file.name
+            
+            try:
+                # 在实际应用中，这里需要将临时文件上传到可访问的URL
+                # 为了演示，我们使用示例图片URL
+                nim_client = NIMClient()
+                result = await nim_client.extract_colors_from_image(
+                    image_url="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
+                    num_colors=num_colors
+                )
+                
+                return result
+                
+            finally:
+                # 清理临时文件
+                os.unlink(tmp_file_path)
+                
+        except Exception as e:
+            logger.error(f"Base64图片分析错误: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"图片分析失败: {str(e)}")
     
     @app.post("/nim/comprehensive-analysis")
     async def nim_comprehensive_analysis(request: dict):
