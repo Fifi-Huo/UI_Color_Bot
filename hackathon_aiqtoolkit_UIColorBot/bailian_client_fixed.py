@@ -34,7 +34,7 @@ class BailianClient:
             "messages": [
                 {
                     "role": "system",
-                    "content": "你是一个专业的UI设计顾问。当收到NIM分析结果时，请基于这些数据提供专业的UI设计建议，包括：\n1. 颜色搭配的优缺点分析\n2. 适用的UI场景和风格\n3. 配色方案的改进建议\n4. 用户体验和可访问性考虑\n\n请用中文回答，语言专业且易懂。不要只是重复分析数据，而要给出实用的设计指导。"
+                    "content": "你是一个专业的UI设计顾问，具备调用NVIDIA NIM颜色分析服务的能力。当用户需要颜色分析时，你可以调用以下工具：\n1. analyze_image_colors - 分析图片中的主要颜色\n2. generate_color_palette - 基于颜色生成配色方案\n3. check_color_accessibility - 检查颜色的可访问性\n\n请根据用户需求智能选择合适的工具，并用专业的中文回答整合分析结果。"
                 },
                 {
                     "role": "user", 
@@ -86,7 +86,7 @@ class BailianClient:
             "messages": [
                 {
                     "role": "system",
-                    "content": "你是一个专业的UI设计顾问。当收到NIM分析结果时，请基于这些数据提供专业的UI设计建议，包括：\n1. 颜色搭配的优缺点分析\n2. 适用的UI场景和风格\n3. 配色方案的改进建议\n4. 用户体验和可访问性考虑\n\n请用中文回答，语言专业且易懂。不要只是重复分析数据，而要给出实用的设计指导。"
+                    "content": "你是一个专业的UI设计顾问，具备调用NVIDIA NIM颜色分析服务的能力。当用户需要颜色分析时，你可以调用以下工具：\n1. analyze_image_colors - 分析图片中的主要颜色\n2. generate_color_palette - 基于颜色生成配色方案\n3. check_color_accessibility - 检查颜色的可访问性\n\n请根据用户需求智能选择合适的工具，并用专业的中文回答整合分析结果。"
                 },
                 {
                     "role": "user",
@@ -244,33 +244,12 @@ class BailianClient:
                             })
             
             # 构建增强的消息
+            enhanced_message = message
             if nim_results:
-                enhanced_message = f"用户问题：{message}\n\n"
-                enhanced_message += "=== 颜色分析数据 ===\n"
-                
-                # 格式化颜色分析结果
-                if 'image_analysis' in nim_results:
-                    colors_data = nim_results['image_analysis']
-                    enhanced_message += "图片主要颜色：\n"
-                    if 'colors' in colors_data:
-                        for i, color in enumerate(colors_data['colors'][:5]):
-                            hex_code = color.get('hex_code', '')
-                            percentage = color.get('percentage', 0)
-                            enhanced_message += f"- {hex_code} ({percentage:.1f}%)\n"
-                
-                # 格式化配色方案结果
-                if 'palette_generation' in nim_results:
-                    palette_data = nim_results['palette_generation']
-                    enhanced_message += "\n生成的配色方案：\n"
-                    if 'palettes' in palette_data:
-                        for palette in palette_data['palettes'][:3]:
-                            scheme_name = palette.get('scheme_name', '未知方案')
-                            colors = palette.get('colors', [])
-                            enhanced_message += f"- {scheme_name}: {', '.join(colors[:4])}\n"
-                
-                enhanced_message += "\n请基于以上颜色数据，为用户的UI设计问题提供专业建议。重点分析配色搭配的优缺点、适用场景、改进建议等。"
-            else:
-                enhanced_message = message
+                enhanced_message += "\n\n=== NIM分析结果 ===\n"
+                for service, data in nim_results.items():
+                    enhanced_message += f"\n{service}: {json.dumps(data, ensure_ascii=False, indent=2)}\n"
+                enhanced_message += "\n请基于以上分析结果，提供专业的UI设计建议。"
             
             # 调用AI进行回答
             return await self.chat_completion(enhanced_message)
@@ -339,33 +318,12 @@ class BailianClient:
                             })
             
             # 构建增强的消息
+            enhanced_message = message
             if nim_results:
-                enhanced_message = f"用户问题：{message}\n\n"
-                enhanced_message += "=== 颜色分析数据 ===\n"
-                
-                # 格式化颜色分析结果
-                if 'image_analysis' in nim_results:
-                    colors_data = nim_results['image_analysis']
-                    enhanced_message += "图片主要颜色：\n"
-                    if 'colors' in colors_data:
-                        for i, color in enumerate(colors_data['colors'][:5]):
-                            hex_code = color.get('hex_code', '')
-                            percentage = color.get('percentage', 0)
-                            enhanced_message += f"- {hex_code} ({percentage:.1f}%)\n"
-                
-                # 格式化配色方案结果
-                if 'palette_generation' in nim_results:
-                    palette_data = nim_results['palette_generation']
-                    enhanced_message += "\n生成的配色方案：\n"
-                    if 'palettes' in palette_data:
-                        for palette in palette_data['palettes'][:3]:
-                            scheme_name = palette.get('scheme_name', '未知方案')
-                            colors = palette.get('colors', [])
-                            enhanced_message += f"- {scheme_name}: {', '.join(colors[:4])}\n"
-                
-                enhanced_message += "\n请基于以上颜色数据，为用户的UI设计问题提供专业建议。重点分析配色搭配的优缺点、适用场景、改进建议等。"
-            else:
-                enhanced_message = message
+                enhanced_message += "\n\n=== NIM分析结果 ===\n"
+                for service, data in nim_results.items():
+                    enhanced_message += f"\n{service}: {json.dumps(data, ensure_ascii=False, indent=2)}\n"
+                enhanced_message += "\n请基于以上分析结果，提供专业的UI设计建议。"
             
             # 调用AI进行流式回答
             async for chunk in self.chat_stream(enhanced_message):
