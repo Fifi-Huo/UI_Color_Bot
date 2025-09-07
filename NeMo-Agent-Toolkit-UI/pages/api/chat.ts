@@ -256,7 +256,7 @@ const handler = async (req: Request): Promise<Response> => {
     const hasImage = lastMessage?.attachments?.some((att: any) => att.type === 'image');
     let payload = { message: userMessage };
 
-    // If there's an image, perform color analysis first
+    // If there's an image, perform color analysis and return results directly
     if (hasImage && lastMessage?.attachments) {
       const imageAttachment = lastMessage.attachments.find((att: any) => att.type === 'image');
       if (imageAttachment?.content) {
@@ -317,41 +317,28 @@ const handler = async (req: Request): Promise<Response> => {
               console.error('Image annotation failed:', error);
             }
 
-            // Enhance the message with color analysis results and annotated image
-            const colorAnalysisText = `
-📸 **图片颜色分析完成**
+            // Return color analysis results directly instead of calling chat API
+            const analysisResults = {
+              type: 'color_analysis',
+              colorData,
+              paletteData,
+              annotatedImageData,
+              userMessage
+            };
 
-🎨 **提取的颜色：**
-${colorData.colors.map((color: any, i: number) => 
-  `${i+1}. ${color.hex_code} (${color.color_name}, ${(color.percentage * 100).toFixed(1)}%)`
-).join('\n')}
-
-⚡ **处理信息：**
-- 处理时间: ${colorData.processing_time_ms.toFixed(1)}ms
-- 算法: ${colorData.algorithm_used}
-- 图片尺寸: ${colorData.image_dimensions.width} × ${colorData.image_dimensions.height}
-
-${paletteData ? `🎯 **推荐配色方案** (${paletteData.palette?.palette_type || '互补色'}):
-${paletteData.palette?.colors?.join(', ') || ''}
-和谐度: ${((paletteData.palette?.harmony_score || 0) * 100).toFixed(0)}%
-` : ''}
-
-${annotatedImageData?.success ? `🖼️ **颜色标注图已生成**
-![颜色标注图](${annotatedImageData.annotated_image})
-
-📊 **标注信息：**
-- 布局: ${annotatedImageData.processing_info.layout}
-- 功能: ${annotatedImageData.processing_info.features.join(', ')}
-- 最终尺寸: ${annotatedImageData.processing_info.final_size}
-` : ''}
-
-${userMessage ? `💬 **用户问题:** ${userMessage}` : ''}`;
-
-            payload = { message: colorAnalysisText };
+            return new Response(JSON.stringify(analysisResults), {
+              headers: { 'Content-Type': 'application/json' }
+            });
           }
         } catch (error) {
           console.error('Color analysis failed:', error);
-          payload = { message: `${userMessage}\n\n[图片颜色分析失败，但我仍然可以帮助您]` };
+          return new Response(JSON.stringify({
+            type: 'error',
+            message: '图片颜色分析失败，请重试'
+          }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+          });
         }
       }
     }

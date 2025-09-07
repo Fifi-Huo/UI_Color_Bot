@@ -889,6 +889,68 @@ export const Chat = () => {
             return;
           }
 
+          // Check if this is a color analysis response (JSON)
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const analysisData = await response.json();
+            
+            if (analysisData.type === 'color_analysis') {
+              // Handle color analysis results
+              let analysisText = '📸 图片颜色分析完成\n\n';
+              
+              // Add color information
+              if (analysisData.colorData?.colors) {
+                analysisText += '🎨 提取的颜色：\n';
+                analysisData.colorData.colors.forEach((color: any, i: number) => {
+                  analysisText += `${i+1}. ${color.hex_code} (${color.color_name}, ${(color.percentage * 100).toFixed(1)}%)\n`;
+                });
+                analysisText += '\n';
+              }
+              
+              // Add palette information
+              if (analysisData.paletteData?.palette) {
+                analysisText += `🎯 推荐配色方案 (${analysisData.paletteData.palette.palette_type}):\n`;
+                analysisText += `${analysisData.paletteData.palette.colors.join(', ')}\n`;
+                analysisText += `和谐度: ${(analysisData.paletteData.palette.harmony_score * 100).toFixed(0)}%\n\n`;
+              }
+              
+              // Add annotated image
+              if (analysisData.annotatedImageData?.success) {
+                analysisText += '🖼️ 颜色标注图已生成\n\n';
+                analysisText += `![颜色标注图](${analysisData.annotatedImageData.annotated_image})\n\n`;
+                analysisText += `📊 标注信息：\n`;
+                analysisText += `- 布局: ${analysisData.annotatedImageData.processing_info.layout}\n`;
+                analysisText += `- 功能: ${analysisData.annotatedImageData.processing_info.features.join(', ')}\n`;
+                analysisText += `- 最终尺寸: ${analysisData.annotatedImageData.processing_info.final_size}\n`;
+              }
+              
+              const assistantMessage: Message = {
+                id: uuidv4(),
+                role: 'assistant',
+                content: analysisText,
+              };
+
+              const updatedMessages: Message[] = [
+                ...updatedConversation.messages,
+                assistantMessage,
+              ];
+
+              updatedConversation = {
+                ...updatedConversation,
+                messages: updatedMessages,
+              };
+
+              homeDispatch({
+                field: 'selectedConversation',
+                value: updatedConversation,
+              });
+              saveConversation(updatedConversation);
+              homeDispatch({ field: 'loading', value: false });
+              homeDispatch({ field: 'messageIsStreaming', value: false });
+              return;
+            }
+          }
+
           const data = response?.body;
           if (!data) {
             homeDispatch({ field: 'loading', value: false });
