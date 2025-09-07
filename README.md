@@ -434,7 +434,6 @@ npm run dev
 
 ## 📞 技术支持
 
-- 📧 Email: support@ui-color-bot.com
 - 🐛 Issues: [GitHub Issues](https://github.com/your-repo/issues)
 - 📖 文档: [用户指南](USER_GUIDE.md)
 
